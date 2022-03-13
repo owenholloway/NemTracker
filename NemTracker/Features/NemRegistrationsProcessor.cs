@@ -29,6 +29,8 @@ namespace NemTracker.Features
         public List<StationDto> GetStations()
         {
             //DownloadNewXls();
+            
+            var stations = new List<StationDto>();
 
             var fileStream = File.Open(NemDataDocument(), FileMode.Open, FileAccess.Read);
 
@@ -40,10 +42,49 @@ namespace NemTracker.Features
             
             foreach (DataTable dataTable in data.Tables)
             {
-                Console.WriteLine(dataTable.TableName);
+                //Console.WriteLine(dataTable.TableName);
+                if (!dataTable.TableName.Contains("Generators and Scheduled Loads")) continue;
+                
+                foreach (DataRow dataTableRow in dataTable.Rows)
+                {
+                    if (dataTableRow.ItemArray[0].ToString().Contains("Participant") &&
+                        dataTableRow.ItemArray[8].ToString().Contains("Technology Type - Primary"))
+                    {
+                        continue;
+                    }
+                    
+                    var stationDto = new StationDto();
+                    
+                    stationDto.StationName = dataTableRow.ItemArray[1].ToString().Trim();
+                    
+                    var physicalUnitNo = dataTableRow.ItemArray[10].ToString().Trim().Split("-");
+                    
+                    switch (physicalUnitNo.Length)
+                    {
+                        case 1:
+                        {
+                            stationDto.PhysicalUnitMin = int.Parse(physicalUnitNo[0]);
+                            stationDto.PhysicalUnitMax = int.Parse(physicalUnitNo[0]);
+                            break;
+                        }
+                        
+                        case 2:
+                        {
+                            stationDto.PhysicalUnitMin = Int32.Parse(physicalUnitNo[0]);
+                            stationDto.PhysicalUnitMax = Int32.Parse(physicalUnitNo[1]);
+                            break;
+                        }
+                        
+                    }
+                    
+                    stations.Add(stationDto);
+                    
+                    Console.WriteLine();
+                }
+                
             }
             
-            return new List<StationDto>();
+            return stations;
         }
 
         
