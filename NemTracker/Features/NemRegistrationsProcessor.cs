@@ -1,28 +1,38 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using ExcelDataReader;
 using NemTracker.Dtos;
+using static System.Int32;
+
+// ReSharper disable PossibleNullReferenceException
+// We have to work with memory is a generally unsafe way to process the file 
+// this will be caught be error catching instead of checking value safely.
+// Bad practice in general but I will make an exception for this.
 
 namespace NemTracker.Features
 {
     public class NemRegistrationsProcessor
     {
         private List<StationDto> _stations = new List<StationDto>();
-        private string _tempStoragePath;
+        private readonly string _tempStoragePath;
 
         public NemRegistrationsProcessor()
         {
-            _tempStoragePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/nemTracker/";
+            _tempStoragePath = Environment
+                .GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/nemTracker/";
 
-            if (!System.IO.Directory.Exists(_tempStoragePath))
+            if (!Directory.Exists(_tempStoragePath))
             {
-                System.IO.Directory.CreateDirectory(_tempStoragePath);
+                Directory.CreateDirectory(_tempStoragePath);
             }
-            
+
         }
         
         
@@ -47,39 +57,57 @@ namespace NemTracker.Features
                 
                 foreach (DataRow dataTableRow in dataTable.Rows)
                 {
-                    if (dataTableRow.ItemArray[0].ToString().Contains("Participant") &&
-                        dataTableRow.ItemArray[8].ToString().Contains("Technology Type - Primary"))
+                    var dataTableItems = dataTableRow.ItemArray;
+                    
+                    if (dataTableItems[0].ToString().Contains("Participant") &&
+                        dataTableItems[8].ToString().Contains("Technology Type - Primary"))
                     {
                         continue;
                     }
                     
                     var stationDto = new StationDto();
-                    
-                    stationDto.StationName = dataTableRow.ItemArray[1].ToString().Trim();
-                    
-                    var physicalUnitNo = dataTableRow.ItemArray[10].ToString().Trim().Split("-");
+                  
+                    stationDto.StationName = dataTableItems[1].ToString().Trim();
+
+                    stationDto.DispatchTypeEnum 
+                        = GetDispatchType(dataTableItems[3].ToString());
+
+                    stationDto.TechnologyType 
+                        = GetTechnologyType(dataTableItems[8].ToString());
+
+                    stationDto.TechnologyTypeDescriptor 
+                        = GetTechnologyTypeDescriptor(dataTableItems[9].ToString());
+
+                    var physicalUnitNo = dataTableItems[10].ToString().Trim().Split("-");
                     
                     switch (physicalUnitNo.Length)
                     {
                         case 1:
                         {
-                            stationDto.PhysicalUnitMin = int.Parse(physicalUnitNo[0]);
-                            stationDto.PhysicalUnitMax = int.Parse(physicalUnitNo[0]);
+                            var unitMin = -1;
+                            TryParse(physicalUnitNo[0], out unitMin);
+                            stationDto.PhysicalUnitMin = unitMin;
+                            stationDto.PhysicalUnitMin = unitMin;
+                            stationDto.PhysicalUnitMax = unitMin;
                             break;
                         }
                         
                         case 2:
                         {
-                            stationDto.PhysicalUnitMin = Int32.Parse(physicalUnitNo[0]);
-                            stationDto.PhysicalUnitMax = Int32.Parse(physicalUnitNo[1]);
+                            var unitMin = -1;
+                            TryParse(physicalUnitNo[0], out unitMin);
+                            stationDto.PhysicalUnitMin = unitMin;
+                            var unitMax = -1;
+                            TryParse(physicalUnitNo[0], out unitMax);
+                            stationDto.PhysicalUnitMax = unitMax;
                             break;
                         }
                         
                     }
+
+                    stationDto.DUID = dataTableItems[13].ToString().Trim();
                     
                     stations.Add(stationDto);
-                    
-                    Console.WriteLine();
                 }
                 
             }
@@ -96,10 +124,67 @@ namespace NemTracker.Features
                 NemDataDocument());
         }
 
+        /*
+         * Data Processing Helper Functions
+         */
+
+        private DispatchTypeEnum GetDispatchType(string rawValue)
+        {
+            foreach (var dispatchType in (DispatchTypeEnum[]) Enum.GetValues(typeof(DispatchTypeEnum)))
+            {
+                if (rawValue.Contains(GetEnumDescription(dispatchType)))
+                {
+                    return dispatchType;
+                }
+            }
+
+            return DispatchTypeEnum.Undefined;
+        }
         
+        private TechnologyTypeEnum GetTechnologyType(string rawValue)
+        {
+            foreach (var technologyType in (TechnologyTypeEnum[]) Enum.GetValues(typeof(TechnologyTypeEnum)))
+            {
+                if (rawValue.Contains(GetEnumDescription(technologyType)))
+                {
+                    return technologyType;
+                }
+            }
+
+            return TechnologyTypeEnum.Undefined;
+        }
+        
+        private TechnologyTypeDescriptorEnum GetTechnologyTypeDescriptor(string rawValue)
+        {
+            foreach (var technologyType in (TechnologyTypeDescriptorEnum[]) Enum.GetValues(typeof(TechnologyTypeDescriptorEnum)))
+            {
+                if (rawValue.Contains(GetEnumDescription(technologyType)))
+                {
+                    return technologyType;
+                }
+            }
+
+            return TechnologyTypeDescriptorEnum.Undefined;
+        }
+        
+        /*
+         * General Helper Functions
+         */
         private string NemDataDocument()
         {
             return _tempStoragePath + "NEM-Registration-and-Exemption-List.xls";
+        }
+        
+        public static string GetEnumDescription(Enum value)
+        {
+            var fi = value.GetType().GetField(value.ToString());
+
+            if (fi.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] attributes && attributes.Any())
+            {
+                return attributes.First().Description;
+            }
+
+            return value.ToString();
         }
         
     }

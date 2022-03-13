@@ -1,6 +1,6 @@
 namespace NemTracker.Dtos
 {
-    public enum DispatchType
+    public enum DispatchTypeEnum
     {
         Load = -1,
         Undefined = 0,
