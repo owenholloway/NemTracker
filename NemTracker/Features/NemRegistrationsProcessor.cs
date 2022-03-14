@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using ExcelDataReader;
 using NemTracker.Dtos;
+using NemTracker.Dtos.Stations;
 using static System.Int32;
 
 // ReSharper disable PossibleNullReferenceException

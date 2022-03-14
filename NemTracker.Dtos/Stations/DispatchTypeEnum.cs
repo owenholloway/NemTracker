@@ -1,4 +1,4 @@
-namespace NemTracker.Dtos
+namespace NemTracker.Dtos.Stations
 {
     public enum DispatchTypeEnum
     {

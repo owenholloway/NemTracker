@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace NemTracker.Dtos
+namespace NemTracker.Dtos.Stations
 {
     public enum TechnologyTypeDescriptorEnum
     {

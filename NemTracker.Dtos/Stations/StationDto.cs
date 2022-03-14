@@ -1,7 +1,6 @@
 using System;
 
-
-namespace NemTracker.Dtos
+namespace NemTracker.Dtos.Stations
 {
     public class StationDto
     {

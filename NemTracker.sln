@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NemTracker", "NemTracker\NemTracker.csproj", "{7271058F-0E9F-459D-B035-7438728794F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NemTracker.Persistence", "NemTracker.Persistence\NemTracker.Persistence.csproj", "{B557DF49-1671-4F20-A20B-DDCA2B7DEC74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NemTracker.Dtos", "NemTracker.Dtos\NemTracker.Dtos.csproj", "{7A0F1562-CF4B-4931-A22E-14CCBD486246}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NemTracker.Domain", "NemTracker.Domain\NemTracker.Domain.csproj", "{64FDCC65-A68A-4BB8-B97D-08E3080FAFDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{7271058F-0E9F-459D-B035-7438728794F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7271058F-0E9F-459D-B035-7438728794F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7271058F-0E9F-459D-B035-7438728794F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B557DF49-1671-4F20-A20B-DDCA2B7DEC74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B557DF49-1671-4F20-A20B-DDCA2B7DEC74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B557DF49-1671-4F20-A20B-DDCA2B7DEC74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B557DF49-1671-4F20-A20B-DDCA2B7DEC74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A0F1562-CF4B-4931-A22E-14CCBD486246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A0F1562-CF4B-4931-A22E-14CCBD486246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A0F1562-CF4B-4931-A22E-14CCBD486246}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A0F1562-CF4B-4931-A22E-14CCBD486246}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64FDCC65-A68A-4BB8-B97D-08E3080FAFDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64FDCC65-A68A-4BB8-B97D-08E3080FAFDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64FDCC65-A68A-4BB8-B97D-08E3080FAFDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64FDCC65-A68A-4BB8-B97D-08E3080FAFDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

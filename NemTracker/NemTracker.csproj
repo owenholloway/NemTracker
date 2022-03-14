@@ -14,4 +14,9 @@
       <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\NemTracker.Domain\NemTracker.Domain.csproj" />
+      <ProjectReference Include="..\NemTracker.Persistence\NemTracker.Persistence.csproj" />
+    </ItemGroup>
+
 </Project>

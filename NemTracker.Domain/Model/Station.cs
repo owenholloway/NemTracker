@@ -1,7 +1,8 @@
 using System;
 using NemTracker.Dtos;
+using NemTracker.Dtos.Stations;
 
-namespace NemTracker.Model
+namespace NemTracker.Model.Model
 {
     public class Station
     {
