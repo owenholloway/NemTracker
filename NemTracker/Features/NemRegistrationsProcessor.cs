@@ -79,7 +79,8 @@ namespace NemTracker.Features
                     stationDto.TechnologyTypeDescriptor 
                         = GetTechnologyTypeDescriptor(dataTableItems[9].ToString());
 
-                    var physicalUnitNo = dataTableItems[10].ToString().Trim().Split("-");
+                    var units = dataTableItems[10].ToString();
+                    var physicalUnitNo = units.Trim().Split("-");
                     
                     switch (physicalUnitNo.Length)
                     {

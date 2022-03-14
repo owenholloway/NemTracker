@@ -1,14 +1,15 @@
 using System;
-using NemTracker.Dtos;
 using NemTracker.Dtos.Stations;
+using Oxygen.Features;
+using Oxygen.Guards;
 
-namespace NemTracker.Model.Model
+namespace NemTracker.Model.Stations
 {
-    public class Station
+    public class Station : Entity<long>
     {
         
         // ReSharper disable InconsistentNaming
-        public Guid ParticipantId { get; private set; }
+        public long ParticipantId { get; private set; }
         public string StationName { get; private set; }
         public RegionEnum Region { get; private set; }
         public TechnologyTypeEnum TechnologyType { get; private set; }
@@ -22,6 +23,9 @@ namespace NemTracker.Model.Model
         
         public static Station Create(StationDto dto)
         {
+            
+            Guard.Against(dto.DUID,GuardType.NullOrEmpty);
+            
             var obj = new Station
             {
                 ParticipantId = dto.ParticipantId,
@@ -38,6 +42,21 @@ namespace NemTracker.Model.Model
 
             return obj;
         }
+
+        public void Update(StationDto dto)
+        {
+            ParticipantId = dto.ParticipantId;
+            StationName = dto.StationName;
+            Region = dto.Region;
+            TechnologyType = dto.TechnologyType;
+            TechnologyTypeDescriptor = dto.TechnologyTypeDescriptor;
+            PhysicalUnitMin = dto.PhysicalUnitMin;
+            PhysicalUnitMax = dto.PhysicalUnitMax;
+            UnitSizeMW = dto.UnitSizeMW;
+            DUID = dto.DUID;
+            DispatchTypeEnum = dto.DispatchTypeEnum;
+        }
+        
     }
     
 }

@@ -5,7 +5,8 @@ namespace NemTracker.Dtos.Stations
     public class StationDto
     {
         // ReSharper disable InconsistentNaming
-        public Guid ParticipantId { get; set; }
+        public long Id { get; set; }
+        public long ParticipantId { get; set; }
         public string StationName { get; set; }
         public RegionEnum Region { get; set; }
         public TechnologyTypeEnum TechnologyType { get; set; }
