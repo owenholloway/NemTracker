@@ -13,4 +13,19 @@
       <PackageReference Include="Npgsql" Version="6.0.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Transforms\CheckInit.sql" />
+      <AdditionalFiles Include="Transforms\CheckInit.sql">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <None Remove="Transforms\Init.sql" />
+      <AdditionalFiles Include="Transforms\Init.sql">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <None Remove="Transforms\Strcture\Test.sql" />
+      <AdditionalFiles Include="Transforms\Strcture\Test.sql">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+    </ItemGroup>
+
 </Project>
