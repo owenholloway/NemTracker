@@ -23,7 +23,7 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </AdditionalFiles>
       <None Remove="Transforms\Strcture\Test.sql" />
-      <AdditionalFiles Include="Transforms\Strcture\Test.sql">
+      <AdditionalFiles Include="Transforms\Structure\20220316_Test.sql">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </AdditionalFiles>
     </ItemGroup>

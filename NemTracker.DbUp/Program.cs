@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using Npgsql;
@@ -40,29 +41,46 @@ namespace NemTracker.DbUp
 
 
 
-            if (CheckInit(connection))
+            if (connection.NeedsInit())
             {
                 Console.WriteLine("Init DB");
-                connection.ExecuteFile("./Transforms/Init.sql");
+                connection.ExecuteFile("./Transforms/Init.sql", false);
             }
             
-            
-                
-            foreach (var file in  System.IO.Directory.GetFiles("./Transforms/Strcture/"))
+            foreach (var file in  System.IO.Directory.GetFiles("./Transforms/Structure/"))
             {
                 Console.WriteLine(file);
+                var fileName = file.Replace("./Transforms/Structure/", "");
+                if (!connection.HasBeenRun(fileName))
+                {
+                    Console.WriteLine("Running: " + fileName);
+                    connection.ExecuteFile(fileName);
+                }
+                else
+                {
+                    Console.WriteLine("Exists: " + fileName);
+                }
             }
             
         }
 
-        private static int ExecuteFile(this NpgsqlConnection connection, string filename)
+        private static int ExecuteFile(this NpgsqlConnection connection, string filename, bool recordRun = true)
         {
-            string fileSql = System.IO.File.ReadAllText(filename, Encoding.UTF8);
+            var filePath = "./Transforms/Structure/" + filename;
+            string fileSql = System.IO.File.ReadAllText(filePath, Encoding.UTF8);
             var command = new NpgsqlCommand(fileSql, connection);
-            return command.ExecuteNonQuery();
+            var result = command.ExecuteNonQuery();
+
+            if (!recordRun) return 0;
+            
+            var recordCommandString = $"INSERT INTO schema_versions VALUES ('{filename}',now())";
+            var recordCommand = new NpgsqlCommand(recordCommandString, connection);
+            var recordResult = recordCommand.ExecuteNonQuery();
+
+            return 0;
         }
 
-        private static bool CheckInit(NpgsqlConnection connection)
+        private static bool NeedsInit(this NpgsqlConnection connection)
         {
             string fileSql = System.IO.File.ReadAllText("./Transforms/CheckInit.sql", Encoding.UTF8);
             var command = new NpgsqlCommand(fileSql, connection);
@@ -87,6 +105,32 @@ namespace NemTracker.DbUp
             }
 
             return needsInit;
+        }
+        
+        private static bool HasBeenRun(this NpgsqlConnection connection, string fileName)
+        {
+            var commandString = $"SELECT EXISTS ( SELECT FROM schema_versions WHERE name = '{fileName}' )";
+            Console.WriteLine(commandString);
+            
+            var command = new NpgsqlCommand(commandString, connection);
+            var reader = command.ExecuteReader();
+
+            bool exist = false;
+
+            while (reader.Read())
+            {
+                if (reader[0].ToString()!.Contains("True"))
+                {
+                    exist = true;
+                }
+            }
+
+            while (!reader.IsClosed)
+            {
+                reader.Close();
+            }
+
+            return exist;
         }
 
     }
