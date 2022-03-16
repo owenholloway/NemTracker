@@ -1,17 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
         <RootNamespace>NemTracker.Model</RootNamespace>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Oxygen.Core" Version="1.6.1" />
+      <ProjectReference Include="..\NemTracker.Dtos\NemTracker.Dtos.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\NemTracker.Dtos\NemTracker.Dtos.csproj" />
+      <PackageReference Include="Oxygen.Core" Version="1.5.0" />
     </ItemGroup>
 
 </Project>

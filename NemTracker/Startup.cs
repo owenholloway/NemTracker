@@ -78,7 +78,7 @@ namespace NemTracker
             
             builder.RegisterModule(new Persistence.Features.Persistence());
             builder.RegisterAssemblyModules(AppScanner.GetAssemblies());
-            
+
             Console.WriteLine("ConfigureContainer End");
         }
         
