@@ -44,7 +44,7 @@ namespace NemTracker.Controllers
                 Console.WriteLine();
 
                 var stationModel = Station.Create(station);
-                _readWriteRepository.Create<Station, long>(stationModel);
+                _readWriteRepository.Create<Station, Guid>(stationModel);
                 _readWriteRepository.Commit();
 
             }

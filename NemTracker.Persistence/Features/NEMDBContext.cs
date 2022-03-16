@@ -11,11 +11,11 @@ namespace NemTracker.Persistence.Features
             
         }
         
-        public Station Station { get; set; }
+        public Station Stations { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseNpgsql("Host=172.16.40.100;Database=nemtracker.test;" +
-                           "Username=nemtracker.test;Password=DsF82VQZ8ZqizkDhdxTHjE2mqfBeDdzL");
+                           "Username=nemtracker.test;Password=@Password123@");
         
     }
 }

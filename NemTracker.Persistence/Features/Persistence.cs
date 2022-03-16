@@ -21,7 +21,7 @@ namespace NemTracker.Persistence.Features
             //Db Context Options
             builder.Register(c =>
             {
-                var config = c.Resolve<IConfiguration>();
+                //var config = c.Resolve<IConfiguration>();
                 var optionsBuilder = new DbContextOptionsBuilder();
                 return optionsBuilder.Options;
             }).As<DbContextOptions>().SingleInstance();

@@ -2,7 +2,7 @@ using System.ComponentModel;
 
 namespace NemTracker.Dtos.Stations
 {
-    public enum TechnologyTypeEnum
+    public enum TechnologyTypeEnum : sbyte
     {
         [Description("Undefined")]
         Undefined = -1,

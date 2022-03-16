@@ -5,11 +5,11 @@ using Oxygen.Guards;
 
 namespace NemTracker.Model.Stations
 {
-    public class Station : Entity<long>
+    public class Station : Entity<Guid>
     {
         
         // ReSharper disable InconsistentNaming
-        public long ParticipantId { get; private set; }
+        public Guid ParticipantId { get; private set; }
         public string StationName { get; private set; }
         public RegionEnum Region { get; private set; }
         public TechnologyTypeEnum TechnologyType { get; private set; }
