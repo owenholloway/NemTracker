@@ -39,11 +39,6 @@ namespace NemTracker
             });
 
             services.AddMvcCore();
-            /*
-            services.AddDbContext<NEMDBContext>(options => 
-                options.UseNpgsql("Host=172.16.40.100;Database=nemtracker.test;" +
-                                  "Username=nemtracker.test;Password=@Password123@")
-                    .LogTo(Console.WriteLine, LogLevel.Information));*/
 
             Console.WriteLine("ConfigureServices Completed");
 
@@ -54,11 +49,24 @@ namespace NemTracker
         {
             Console.WriteLine("Configure Start");
             
+            
+            app.Use(async (context, next) =>
+            {
+                // Do work that doesn't write to the Response.
+                Console.WriteLine(context.Connection.RemoteIpAddress);
+                await next.Invoke();
+                // Do logging or other work that doesn't write to the Response.
+            });
+            
+            
             if (env.IsDevelopment())
             {
                 //TODO
             }
-
+            else
+            {
+                //TODO
+            }
             
             /*
             app.UseSwagger();

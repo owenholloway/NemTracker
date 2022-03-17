@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NemTracker.Dtos.Stations;
 using NemTracker.Features;
 using NemTracker.Model.Stations;
 using Oxygen.Interfaces;
@@ -27,22 +29,18 @@ namespace NemTracker.Controllers
         [Route("")]
         public IActionResult RootGet()
         {
-            var nemProcessor = new NemRegistrationsProcessor();
-            var stations = nemProcessor.GetStations();
-
-            List<Task> tasks = new List<Task>();
-
-            foreach (var station in stations)
-            {
-
-                Console.WriteLine("Station: " + station.StationName);
-                var stationModel = Station.Create(station);
-                _readWriteRepository.Create<Station, Guid>(stationModel);
-                //_readWriteRepository.Commit();
-
-            }
-
             return Ok("Ok");
+        }
+        
+        [HttpGet]
+        [Route("sites")]
+        public IActionResult Sites()
+        {
+            var stations = _readOnlyRepository.Table<Station, Guid>().ToList();
+
+            var stationDtos = stations.Select(station => station.GetDto()).ToList();
+
+            return Ok(stationDtos);
         }
         
         

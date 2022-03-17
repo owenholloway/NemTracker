@@ -56,6 +56,27 @@ namespace NemTracker.Model.Stations
             DUID = dto.DUID;
             DispatchType = dto.DispatchType;
         }
+
+        public StationDto GetDto()
+        {
+            var dto = new StationDto()
+            {
+                Id = Id,
+                ParticipantId = ParticipantId,
+                StationName = StationName,
+                Region = Region,
+                TechnologyType = TechnologyType,
+                TechnologyTypeDescriptor = TechnologyTypeDescriptor,
+                PhysicalUnitMin = PhysicalUnitMin,
+                PhysicalUnitMax = PhysicalUnitMax,
+                UnitSizeMW = UnitSizeMW,
+                DUID = DUID,
+                DispatchType = DispatchType
+            };
+
+            return dto;
+
+        }
         
     }
     

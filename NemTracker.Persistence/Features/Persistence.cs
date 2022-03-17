@@ -23,10 +23,9 @@ namespace NemTracker.Persistence.Features
             //Db Context Options
             builder.Register(c =>
             {
-                //var config = c.Resolve<IConfiguration>();
+                var config = c.Resolve<IConfiguration>();
                 var optionsBuilder = new DbContextOptionsBuilder();
-                optionsBuilder.UseNpgsql("Host=172.16.40.100;Database=nemtracker.test;" +
-                                         "Username=nemtracker.test;Password=@Password123@");
+                optionsBuilder.UseNpgsql(config.GetConnectionString("ApplicationDatabase"));
                 optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
                 return optionsBuilder.Options;
             }).As<DbContextOptions>().SingleInstance();
