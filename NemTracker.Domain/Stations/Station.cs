@@ -18,7 +18,7 @@ namespace NemTracker.Model.Stations
         public int PhysicalUnitMax { get; private set; }
         public double UnitSizeMW { get; private set; } = 0;
         public string DUID { get; private set; }
-        public DispatchTypeEnum DispatchTypeEnum { get; private set; } = DispatchTypeEnum.Undefined;
+        public DispatchTypeEnum DispatchType { get; private set; } = DispatchTypeEnum.Undefined;
         
         
         public static Station Create(StationDto dto)
@@ -37,7 +37,7 @@ namespace NemTracker.Model.Stations
                 PhysicalUnitMax = dto.PhysicalUnitMax,
                 UnitSizeMW = dto.UnitSizeMW,
                 DUID = dto.DUID,
-                DispatchTypeEnum = dto.DispatchTypeEnum
+                DispatchType = dto.DispatchType
             };
 
             return obj;
@@ -54,7 +54,7 @@ namespace NemTracker.Model.Stations
             PhysicalUnitMax = dto.PhysicalUnitMax;
             UnitSizeMW = dto.UnitSizeMW;
             DUID = dto.DUID;
-            DispatchTypeEnum = dto.DispatchTypeEnum;
+            DispatchType = dto.DispatchType;
         }
         
     }

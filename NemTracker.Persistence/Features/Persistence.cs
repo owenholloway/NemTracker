@@ -1,6 +1,8 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Oxygen.Features;
 using Oxygen.Interfaces;
 
@@ -23,6 +25,9 @@ namespace NemTracker.Persistence.Features
             {
                 //var config = c.Resolve<IConfiguration>();
                 var optionsBuilder = new DbContextOptionsBuilder();
+                optionsBuilder.UseNpgsql("Host=172.16.40.100;Database=nemtracker.test;" +
+                                         "Username=nemtracker.test;Password=@Password123@");
+                optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
                 return optionsBuilder.Options;
             }).As<DbContextOptions>().SingleInstance();
             

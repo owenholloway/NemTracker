@@ -15,6 +15,6 @@ namespace NemTracker.Dtos.Stations
         public int PhysicalUnitMax { get; set; }
         public double UnitSizeMW { get; set; } = 0;
         public string DUID { get; set; }
-        public DispatchTypeEnum DispatchTypeEnum { get; set; } = DispatchTypeEnum.Undefined;
+        public DispatchTypeEnum DispatchType { get; set; } = DispatchTypeEnum.Undefined;
     }
 }

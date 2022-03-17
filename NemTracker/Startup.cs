@@ -3,9 +3,12 @@ using System.Reflection;
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using NemTracker.Persistence.Features;
 using NemTracker.Services;
 
 namespace NemTracker
@@ -36,6 +39,11 @@ namespace NemTracker
             });
 
             services.AddMvcCore();
+            /*
+            services.AddDbContext<NEMDBContext>(options => 
+                options.UseNpgsql("Host=172.16.40.100;Database=nemtracker.test;" +
+                                  "Username=nemtracker.test;Password=@Password123@")
+                    .LogTo(Console.WriteLine, LogLevel.Information));*/
 
             Console.WriteLine("ConfigureServices Completed");
 
@@ -74,7 +82,6 @@ namespace NemTracker
         public static void ConfigureContainer(ContainerBuilder builder)
         {
             Console.WriteLine("ConfigureContainer Start");
-
             
             builder.RegisterModule(new Persistence.Features.Persistence());
             builder.RegisterAssemblyModules(AppScanner.GetAssemblies());

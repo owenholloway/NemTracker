@@ -41,15 +41,13 @@ namespace NemTracker.DbUp
 
 
 
-            if (connection.NeedsInit())
+            if (connection.CheckInit())
             {
                 Console.WriteLine("Init DB");
-                connection.ExecuteFile("./Transforms/Init.sql", false);
             }
             
             foreach (var file in  System.IO.Directory.GetFiles("./Transforms/Structure/"))
             {
-                Console.WriteLine(file);
                 var fileName = file.Replace("./Transforms/Structure/", "");
                 if (!connection.HasBeenRun(fileName))
                 {
@@ -80,7 +78,7 @@ namespace NemTracker.DbUp
             return 0;
         }
 
-        private static bool NeedsInit(this NpgsqlConnection connection)
+        private static bool CheckInit(this NpgsqlConnection connection)
         {
             string fileSql = System.IO.File.ReadAllText("./Transforms/CheckInit.sql", Encoding.UTF8);
             var command = new NpgsqlCommand(fileSql, connection);
@@ -104,14 +102,21 @@ namespace NemTracker.DbUp
                 reader.Close();
             }
 
+            if (needsInit)
+            {
+                var fileInit = "./Transforms/Init.sql";
+                string initSql = System.IO.File.ReadAllText(fileInit, Encoding.UTF8);
+                var commandSql = new NpgsqlCommand(initSql, connection);
+                var resultInit = commandSql.ExecuteNonQuery();
+            }
+
             return needsInit;
         }
         
         private static bool HasBeenRun(this NpgsqlConnection connection, string fileName)
         {
             var commandString = $"SELECT EXISTS ( SELECT FROM schema_versions WHERE name = '{fileName}' )";
-            Console.WriteLine(commandString);
-            
+
             var command = new NpgsqlCommand(commandString, connection);
             var reader = command.ExecuteReader();
 

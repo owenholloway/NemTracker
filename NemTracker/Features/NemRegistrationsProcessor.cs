@@ -70,7 +70,7 @@ namespace NemTracker.Features
                   
                     stationDto.StationName = dataTableItems[1].ToString().Trim();
 
-                    stationDto.DispatchTypeEnum 
+                    stationDto.DispatchType 
                         = GetDispatchType(dataTableItems[3].ToString());
 
                     stationDto.TechnologyType 
@@ -113,6 +113,8 @@ namespace NemTracker.Features
                 }
                 
             }
+            
+            fileStream.Close();
             
             return stations;
         }

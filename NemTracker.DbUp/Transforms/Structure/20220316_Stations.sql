@@ -1,4 +1,4 @@
-CREATE TABLE stations(
+CREATE TABLE Stations(
     id uuid NOT NULL PRIMARY KEY,
     participant_id UUID,
     station_name varchar(256),
@@ -9,5 +9,5 @@ CREATE TABLE stations(
     physical_unit_max int NOT NULL DEFAULT 0,
     unit_size_mw  float8,
     duid varchar(32),
-    DispatchTypeEnum smallint  NOT NULL DEFAULT -1          
+    dispatch_type smallint  NOT NULL DEFAULT -1          
 )
