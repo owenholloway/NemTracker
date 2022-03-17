@@ -64,8 +64,8 @@ namespace NemTracker.Features
 
                     var dto = new ParticipantDto();
 
-                    dto.Name = dataTableRow[0].ToString();
-                    dto.ABN = dataTableRow[1].ToString();
+                    dto.Name = dataTableRow[0].ToString().Trim();
+                    dto.ABN = dataTableRow[1].ToString().Trim();
 
                     dto.DemandResponseServiceProviderAncillaryServiceLoad 
                         = dataTableRow[2].ToString().Contains('1');
@@ -121,8 +121,7 @@ namespace NemTracker.Features
 
         public List<StationDto> GetStations()
         {
-            //DownloadNewXls();
-            
+
             var stations = new List<StationDto>();
 
             var fileStream = File.Open(NemDataDocument(), FileMode.Open, FileAccess.Read);
@@ -149,7 +148,9 @@ namespace NemTracker.Features
                     }
                     
                     var stationDto = new StationDto();
-                  
+
+                    stationDto.ParticipantName = dataTableItems[0].ToString().Trim();
+                    
                     stationDto.StationName = dataTableItems[1].ToString().Trim();
 
                     stationDto.DispatchType 
@@ -202,7 +203,7 @@ namespace NemTracker.Features
         }
 
         
-        private void DownloadNewXls()
+        public void DownloadNewXls()
         {
             using var httpClient = new WebClient();
             httpClient.DownloadFile("https://www.aemo.com.au/-/media/Files/Electricity/NEM/" +

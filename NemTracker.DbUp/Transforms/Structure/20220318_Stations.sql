@@ -9,5 +9,10 @@ CREATE TABLE Stations(
     physical_unit_max int NOT NULL DEFAULT 0,
     unit_size_mw  float8,
     duid varchar(32),
-    dispatch_type smallint  NOT NULL DEFAULT -1          
-)
+    dispatch_type smallint  NOT NULL DEFAULT -1
+);
+
+CREATE INDEX IX_Stations_station_name ON Stations (station_name);
+CREATE INDEX IX_Stations_duid ON Stations (duid);
+CREATE INDEX IX_Stations_participant_id ON Stations (participant_id);
+CREATE INDEX IX_Stations_technology_type ON Stations (technology_type);

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NemTracker.Persistence.Features;
 using NemTracker.Services;
+using NemTracker.Services.Ingest;
 
 namespace NemTracker
 {
@@ -32,6 +33,8 @@ namespace NemTracker
             Console.WriteLine("ConfigureServices Start");
             
             //Config.Version = _configuration.GetSection("Misc").GetSection("Version").Value;
+
+            services.AddHostedService<StationIngestService>();
             
             services.AddMvc(options =>
             {
