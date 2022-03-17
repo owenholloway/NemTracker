@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using NemTracker.Features;
 using NemTracker.Services;
 
 namespace NemTracker
@@ -11,9 +12,13 @@ namespace NemTracker
     {
         private static void Main(string[] args)
         {
+
+            var test = new NemRegistrationsProcessor();
+            
+            test.GetParticipants();
+            
             try
             {
-
                 CreateWebHostBuilder(args).Run();
             }
             catch (Exception e)

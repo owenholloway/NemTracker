@@ -35,8 +35,90 @@ namespace NemTracker.Features
             }
 
         }
-        
-        
+
+
+        public List<ParticipantDto> GetParticipants()
+        {
+            var participants = new List<ParticipantDto>();
+            
+                        var fileStream = File.Open(NemDataDocument(), FileMode.Open, FileAccess.Read);
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            var xlsReader = ExcelReaderFactory.CreateBinaryReader(fileStream);
+
+            var data = xlsReader.AsDataSet();
+            
+            foreach (DataTable dataTable in data.Tables)
+            {
+                //Console.WriteLine(dataTable.TableName);
+                if (!dataTable.TableName.Contains("Registered Participants")) continue;
+
+                foreach (DataRow dataTableRow in dataTable.Rows)
+                {
+                    if (dataTableRow[1].ToString().Contains("ABN / ACN") 
+                        || dataTableRow[1].ToString().Contains("Totals"))
+                    {
+                        continue;
+                    }
+
+                    var dto = new ParticipantDto();
+
+                    dto.Name = dataTableRow[0].ToString();
+                    dto.ABN = dataTableRow[1].ToString();
+
+                    dto.DemandResponseServiceProviderAncillaryServiceLoad 
+                        = dataTableRow[2].ToString().Contains('1');
+                    dto.DemandResponseServiceProviderWholesaleDemandResponseUnit 
+                        = dataTableRow[3].ToString().Contains('1');
+                    dto.GeneratorMarketScheduled
+                        = dataTableRow[4].ToString().Contains('1');
+                    dto.GeneratorMarketNonScheduled
+                        = dataTableRow[5].ToString().Contains('1');
+                    dto.GeneratorMarketSemiScheduled 
+                        = dataTableRow[6].ToString().Contains('1');
+                    dto.GeneratorNonMarketScheduled 
+                        = dataTableRow[7].ToString().Contains('1');
+                    dto.GeneratorNonMarketNonScheduled 
+                        = dataTableRow[8].ToString().Contains('1');
+                    dto.GeneratorNonMarketSemiScheduled 
+                        = dataTableRow[9].ToString().Contains('1');
+                    dto.MarketSmallGenerationAggregator 
+                        = dataTableRow[10].ToString().Contains('1');
+                    dto.MarketCustomer 
+                        = dataTableRow[11].ToString().Contains('1');
+                    dto.MeteringCoordinator 
+                        = dataTableRow[12].ToString().Contains('1');
+                    dto.MarketNSP 
+                        = dataTableRow[13].ToString().Contains('1');
+                    dto.NSPTransmission 
+                        = dataTableRow[14].ToString().Contains('1');
+                    dto.NSPDistribution 
+                        = dataTableRow[15].ToString().Contains('1');
+                    dto.NSPOther 
+                        = dataTableRow[16].ToString().Contains('1');
+                    dto.SpecialParticipantSystemOperator 
+                        = dataTableRow[17].ToString().Contains('1');
+                    dto.SpecialParticipantDistributionOperator 
+                        = dataTableRow[18].ToString().Contains('1');
+                    dto.Trader 
+                        = dataTableRow[19].ToString().Contains('1');
+                    dto.Intending 
+                        = dataTableRow[20].ToString().Contains('1');
+                    dto.Reallocator 
+                        = dataTableRow[21].ToString().Contains('1');
+                    
+                    participants.Add(dto);
+                    
+                }
+
+            }
+            
+            fileStream.Close();
+
+            return participants;
+        }
+
         public List<StationDto> GetStations()
         {
             //DownloadNewXls();
