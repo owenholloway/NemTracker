@@ -28,7 +28,7 @@ namespace NemTracker.Persistence.Features
                 optionsBuilder.UseNpgsql(config.GetConnectionString("ApplicationDatabase"));
                 optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
                 return optionsBuilder.Options;
-            }).As<DbContextOptions>().SingleInstance();
+            }).As<DbContextOptions>().InstancePerDependency();
             
             builder.RegisterType<NEMDBContext>().As<DbContext>().InstancePerLifetimeScope();
 
