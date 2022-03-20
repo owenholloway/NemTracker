@@ -7,7 +7,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
 using NemTracker.Dtos.P5Minute;
 using NemTracker.Dtos.Stations;
 
@@ -106,8 +105,6 @@ namespace NemTracker.Features
             while ((line = reader.ReadLine()) != null)
             {
                 var lineSplit = line.Split(",");
-
-                Console.WriteLine(lineSplit[0]);
                 
                 if (lineSplit[0].Contains("D"))
                 {

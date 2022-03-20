@@ -48,23 +48,23 @@ namespace NemTracker.Services.Ingest
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    //Console.WriteLine("Participant Intake Start");
+                    Console.WriteLine("Participant Intake Start");
                     
                     var participantsTask = CompleteIngestParticipants();
                     await participantsTask;
                     participantsTask.Dispose();
                     _readWriteRepository.Commit();
 
-                    //Console.WriteLine("Participant Intake Complete");
+                    Console.WriteLine("Participant Intake Complete");
                     
-                    //Console.WriteLine("Station Intake Start");
+                    Console.WriteLine("Station Intake Start");
                     
                     var stationsTask = CompleteIngestStations();
                     await stationsTask;
                     stationsTask.Dispose();
                     _readWriteRepository.Commit();
                     
-                    //Console.WriteLine("Station Intake Complete");
+                    Console.WriteLine("Station Intake Complete");
 
                     _nextRun = _crontabSchedule.GetNextOccurrence(DateTime.Now);
                     await Task.Delay(UntilNextExecution(), cancellationToken);
