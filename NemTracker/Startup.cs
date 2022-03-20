@@ -3,12 +3,9 @@ using System.Reflection;
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using NemTracker.Persistence.Features;
 using NemTracker.Services;
 using NemTracker.Services.Ingest;
 
@@ -28,13 +25,12 @@ namespace NemTracker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-
             Console.WriteLine("ConfigureServices Start");
             
             //Config.Version = _configuration.GetSection("Misc").GetSection("Version").Value;
 
             services.AddHostedService<StationIngestService>();
+            services.AddHostedService<P5IngestService>();
             
             services.AddMvc(options =>
             {

@@ -1,4 +1,4 @@
-CREATE TABLE RegionSolutions(
+CREATE TABLE region_solutions(
      id bigint NOT NULL PRIMARY KEY,
      run_time date,
      interval date,
@@ -105,7 +105,7 @@ CREATE TABLE RegionSolutions(
      wdr_dispatched double precision
 );
 
-CREATE INDEX IX_RegionSolution_interval ON RegionSolution (interval);
-CREATE INDEX IX_RegionSolution_run_time ON RegionSolution (run_time);
-CREATE INDEX IX_RegionSolution_region ON RegionSolution (region);
-CREATE INDEX IX_RegionSolution_last_changed ON RegionSolution (last_changed);
+CREATE INDEX IX_region_solutions_interval ON region_solutions (interval);
+CREATE INDEX IX_region_solutions_run_time ON region_solutions (run_time);
+CREATE INDEX IX_region_solutions_region ON region_solutions (region);
+CREATE INDEX IX_region_solutions_last_changed ON region_solutions (last_changed);

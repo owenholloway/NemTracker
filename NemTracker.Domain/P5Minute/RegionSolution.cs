@@ -112,7 +112,7 @@ namespace NemTracker.Model.P5Minute
         public double WdrAvailable { get; private set; }
         public double WdrDispatched { get; private set; }
 
-        public RegionSolution Create(RegionSolutionDto dto)
+        public static RegionSolution Create(RegionSolutionDto dto)
         {
             var obj = new RegionSolution();
 

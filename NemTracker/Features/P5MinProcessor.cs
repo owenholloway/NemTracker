@@ -21,6 +21,7 @@ namespace NemTracker.Features
         private string _nextInstructionNumber = null;
         private List<string> _files = new List<string>();
         private readonly string _dateTimeFormat = "yyyy/MM/dd HH:mm:ss";
+        private P5MinuteDataDto _data = new P5MinuteDataDto();
         
         public P5MinProcessor()
         {
@@ -38,7 +39,7 @@ namespace NemTracker.Features
             }
         }
 
-        public void ProcessInstructions()
+        public P5MinuteDataDto ProcessInstructions()
         {
             var file = CheckNewInstructions();
             
@@ -46,6 +47,8 @@ namespace NemTracker.Features
             {
                 ProcessLines(file);
             }
+
+            return _data;
         }
 
         private InstructionFile CheckNewInstructions()
@@ -114,6 +117,7 @@ namespace NemTracker.Features
                     {
                         case AemoTypeEnum.RegionSolution:
                             var dto = ProcessRegionSolutionLine(lineSplit);
+                            _data.RegionSolutionDtos.Add(dto);
                             break;
                     }
                 }
@@ -308,7 +312,7 @@ namespace NemTracker.Features
             return Double.Parse(value);
         }
 
-        public RegionEnum GetRegion(string value)
+        private RegionEnum GetRegion(string value)
         {
             if (value.Contains(GetEnumDescription(RegionEnum.NSW1)))
             {

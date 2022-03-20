@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using NCrontab;
 using NemTracker.Features;
+using NemTracker.Model.P5Minute;
 using NemTracker.Model.Stations;
 using Oxygen.Interfaces;
 
@@ -14,7 +15,7 @@ namespace NemTracker.Services.Ingest
     {
         
         private DateTime _nextRun;
-        private const string Schedule = "0 0 1/10 * *";
+        private const string Schedule = "*/5 * * * *";
         private readonly CrontabSchedule _crontabSchedule;
 
         private readonly IReadOnlyRepository _readOnlyRepository;
@@ -25,7 +26,8 @@ namespace NemTracker.Services.Ingest
         {
             _readOnlyRepository = readOnlyRepository;
             _readWriteRepository = readWriteRepository;
-            _crontabSchedule = CrontabSchedule.Parse(Schedule, new CrontabSchedule.ParseOptions{IncludingSeconds = false});
+            _crontabSchedule = CrontabSchedule.Parse(Schedule, 
+                new CrontabSchedule.ParseOptions{IncludingSeconds = false});
         }
         
         public Task StartAsync(CancellationToken cancellationToken)
@@ -35,14 +37,16 @@ namespace NemTracker.Services.Ingest
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    await Task.Delay(UntilNextExecution(), cancellationToken);
-
-                    var participantsTask = CompleteIngestParticipants();
-                    await participantsTask;
-                    participantsTask.Dispose();
+                    
+                    var processP5DataTask = ProcessP5Data();
+                    await processP5DataTask;
+                    processP5DataTask.Dispose();
                     _readWriteRepository.Commit();
-
+                    
                     _nextRun = _crontabSchedule.GetNextOccurrence(DateTime.Now);
+                    _nextRun = _nextRun.AddSeconds(90);
+                    
+                    await Task.Delay(UntilNextExecution(), cancellationToken);
 
                 }
             }, cancellationToken);
@@ -51,29 +55,32 @@ namespace NemTracker.Services.Ingest
             
         }
 
-        private Task CompleteIngestParticipants()
+        private Task ProcessP5Data()
         {
             Console.WriteLine("Data ingest is starting");
             return Task.Run(() =>
             {
-                var processor = new NemRegistrationsProcessor();
-                //processor.DownloadNewXls();
-                var participants = processor.GetParticipants();
+                var processor = new P5MinProcessor();
+                var dataResult = processor.ProcessInstructions();
 
-                foreach (var participant in participants)
+                foreach (var solutionDto in dataResult.RegionSolutionDtos)
                 {
-                    if (
-                        _readOnlyRepository.Table<Participant, Guid>()
-                            .Any(P => P.Name.Equals(participant.Name)) &&
-                        _readOnlyRepository.Table<Participant, Guid>()
-                            .Any(P => P.Name.Equals(participant.Name))
-                    ) return;
+                    if (_readOnlyRepository.Table<RegionSolution, long>()
+                        .Any(s => s.Interval.Equals(solutionDto.Interval)))
+                    {
+                        var solution = _readWriteRepository.Table<RegionSolution, long>()
+                            .First(s => s.Interval.Equals(solutionDto.Interval));
+                        
+                        solution.Update(solutionDto);
+                    }
+                    else
+                    {
+                        var solution = RegionSolution.Create(solutionDto);
+                        _readWriteRepository.Create<RegionSolution, long>(solution);
+                    }
                     
-                    Console.WriteLine("Adding new Station: " + participant.Name);
-                    var obj = Participant.Create(participant);
-                    _readWriteRepository.Create<Participant, Guid>(obj);
                 }
-
+                
             });
         }
 

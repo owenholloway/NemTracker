@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NemTracker.Model.P5Minute;
 using NemTracker.Model.Stations;
 
 namespace NemTracker.Persistence.Features
@@ -13,9 +14,13 @@ namespace NemTracker.Persistence.Features
         {
         }
         
+        //Station and General NEM Data
         public DbSet<Station> Stations { get; set; }
         public DbSet<Participant> Participants { get; set; }
         
+        //P5 Data
+        public DbSet<RegionSolution> RegionSolutions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             BuildApplicationModel(modelBuilder);

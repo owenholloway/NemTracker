@@ -3,12 +3,8 @@ using NemTracker.Dtos.Stations;
 
 namespace NemTracker.Dtos.P5Minute
 {
-    public class RegionSolutionDto
+    public class RegionSolutionDto : RegionSolutionLightDto
     {
-        public long Id { get; set; }
-        public DateTime RunTime { get; set; }
-        public DateTime Interval { get; set; }
-        public RegionEnum Region { get; set; }
         //Data Values
         public double Rrp { get; set; } = 0;
         public double Rop { get; set; } = 0;

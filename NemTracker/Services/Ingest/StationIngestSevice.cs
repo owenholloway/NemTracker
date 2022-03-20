@@ -14,7 +14,7 @@ namespace NemTracker.Services.Ingest
     {
         
         private DateTime _nextRun;
-        private const string Schedule = "*/5 * * * *";
+        private const string Schedule = "0 0 */10 * *";
         private readonly CrontabSchedule _crontabSchedule;
 
         private readonly IReadOnlyRepository _readOnlyRepository;
@@ -25,18 +25,18 @@ namespace NemTracker.Services.Ingest
         {
             _readOnlyRepository = readOnlyRepository;
             _readWriteRepository = readWriteRepository;
-            _crontabSchedule = CrontabSchedule.Parse(Schedule, new CrontabSchedule.ParseOptions{IncludingSeconds = false});
+            _crontabSchedule = CrontabSchedule.Parse(Schedule, 
+                new CrontabSchedule.ParseOptions{IncludingSeconds = false});
         }
         
         public Task StartAsync(CancellationToken cancellationToken)
         {
             
+            
             Task.Run(async () =>
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    await Task.Delay(UntilNextExecution(), cancellationToken);
-
                     var participantsTask = CompleteIngestParticipants();
                     await participantsTask;
                     participantsTask.Dispose();
@@ -48,7 +48,8 @@ namespace NemTracker.Services.Ingest
                     _readWriteRepository.Commit();
 
                     _nextRun = _crontabSchedule.GetNextOccurrence(DateTime.Now);
-
+                    await Task.Delay(UntilNextExecution(), cancellationToken);
+                    
                 }
             }, cancellationToken);
             

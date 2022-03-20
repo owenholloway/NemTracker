@@ -35,7 +35,7 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </AdditionalFiles>
       <None Remove="Transforms\Structure\20220320_RegionSolution.sql" />
-      <AdditionalFiles Include="Transforms\Structure\20220320_RegionSolution.sql">
+      <AdditionalFiles Include="Transforms\Structure\20220320_RegionSolutions.sql">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </AdditionalFiles>
     </ItemGroup>
