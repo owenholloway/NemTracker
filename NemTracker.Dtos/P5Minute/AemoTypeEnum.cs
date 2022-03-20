@@ -1,6 +1,8 @@
+using System;
+
 namespace NemTracker.Dtos.P5Minute
 {
-    public enum AemoTypeEnum
+    public enum AemoTypeEnum : short
     {
         LocalPrice = 1,
         CaseSolution = 2,
