@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using NemTracker.Exceptions;
@@ -23,6 +24,11 @@ namespace NemTracker.Features
             if (!Directory.Exists(_tempStoragePath))
             {
                 Directory.CreateDirectory(_tempStoragePath);
+            }
+            
+            if (!Directory.Exists(P5MinPath()))
+            {
+                Directory.CreateDirectory(P5MinPath());
             }
         }
 
@@ -62,7 +68,7 @@ namespace NemTracker.Features
                     
                     if (instructionStamp == fileStamp)
                     {
-                        DownloadExtractInstruction(instructionFile.Path);
+                        DownloadExtractInstruction(instructionFile);
                     }
                 }
 
@@ -97,9 +103,18 @@ namespace NemTracker.Features
                 .ToList();
         }
 
-        private void DownloadExtractInstruction(string path)
+        private void DownloadExtractInstruction(InstructionFile file)
         {
-
+            var fileName = P5MinPath() + file.PeriodStamp + "_" + file.GenerationStamp;
+            
+            using var httpClient = new WebClient();
+            httpClient.DownloadFile(
+                _nemwebHost + file.Path,
+                fileName + ".zip"
+                );
+            
+            ZipFile.ExtractToDirectory(fileName + ".zip",P5MinPath());
+            
         }
         
         private class InstructionFile
@@ -107,6 +122,11 @@ namespace NemTracker.Features
             public string Path;
             public string PeriodStamp;
             public string GenerationStamp;
+        }
+
+        private string P5MinPath()
+        {
+            return _tempStoragePath + "P5_Min/";
         }
         
     }
