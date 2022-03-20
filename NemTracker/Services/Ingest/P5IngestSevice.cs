@@ -10,17 +10,17 @@ using Oxygen.Interfaces;
 
 namespace NemTracker.Services.Ingest
 {
-    public class StationIngestService : IHostedService
+    public class P5IngestService : IHostedService
     {
         
         private DateTime _nextRun;
-        private const string Schedule = "*/5 * * * *";
+        private const string Schedule = "0 0 1/10 * *";
         private readonly CrontabSchedule _crontabSchedule;
 
         private readonly IReadOnlyRepository _readOnlyRepository;
         private readonly IReadWriteRepository _readWriteRepository;
         
-        public StationIngestService(IReadOnlyRepository readOnlyRepository,
+        public P5IngestService(IReadOnlyRepository readOnlyRepository,
             IReadWriteRepository readWriteRepository)
         {
             _readOnlyRepository = readOnlyRepository;
@@ -40,11 +40,6 @@ namespace NemTracker.Services.Ingest
                     var participantsTask = CompleteIngestParticipants();
                     await participantsTask;
                     participantsTask.Dispose();
-                    _readWriteRepository.Commit();
-                    
-                    var stationsTask = CompleteIngestStations();
-                    await stationsTask;
-                    stationsTask.Dispose();
                     _readWriteRepository.Commit();
 
                     _nextRun = _crontabSchedule.GetNextOccurrence(DateTime.Now);
@@ -80,19 +75,8 @@ namespace NemTracker.Services.Ingest
                 }
 
             });
-        } 
-        
-        private Task CompleteIngestStations()
-        {
-            Console.WriteLine("P5 Min Data ingest is starting");
-            return Task.Run(() =>
-            {
-                
-                Console.WriteLine("P5 Min Data ingest is complete");
-                
-            });
-        } 
-        
+        }
+
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
         
         private int UntilNextExecution() => Math.Max(0, (int)_nextRun.Subtract(DateTime.Now).TotalMilliseconds);

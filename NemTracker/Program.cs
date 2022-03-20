@@ -13,10 +13,11 @@ namespace NemTracker
         private static void Main(string[] args)
         {
 
-            var test = new NemRegistrationsProcessor();
+            var p5Min = new P5MinProcessor();
             
-            test.GetParticipants();
-            
+            p5Min.ProcessInstructions();
+
+            /*
             try
             {
                 CreateWebHostBuilder(args).Run();
@@ -24,7 +25,7 @@ namespace NemTracker
             catch (Exception e)
             {
                 ExceptionHandler.Handle(e);
-            }
+            }*/
 
         }
         
