@@ -148,13 +148,13 @@ namespace NemTracker.Features
             dto.Lower5MinRop = CSVDoubleValue(line[24]);
             dto.LowerRegRrp = CSVDoubleValue(line[25]);
             dto.LowerRegRop = CSVDoubleValue(line[26]);
-            dto.Totaldemand = CSVDoubleValue(line[27]);
+            dto.TotalDemand = CSVDoubleValue(line[27]);
             dto.AvailableGeneration = CSVDoubleValue(line[28]);
             dto.AvailableLoad = CSVDoubleValue(line[29]);
             dto.DemandForecast = CSVDoubleValue(line[30]);
             dto.DispatchableGeneration = CSVDoubleValue(line[31]);
             dto.DispatchableLoad = CSVDoubleValue(line[32]);
-            dto.NetinterChange = CSVDoubleValue(line[33]);
+            dto.NetInterchange = CSVDoubleValue(line[33]);
             dto.Lower5MinDispatch = CSVDoubleValue(line[34]);
             dto.Lower5MinImport = CSVDoubleValue(line[35]);
             dto.Lower5MinLocalDispatch = CSVDoubleValue(line[36]);

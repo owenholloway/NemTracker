@@ -6,10 +6,8 @@ namespace NemTracker.Model.P5Minute
 {
     public class RegionSolution : Entity<long>
     {
-
-        public DateTime RunTime { get; set; }
+        public DateTime RunTime { get; private set; }
         public DateTime Interval { get; private set; }
-
         public RegionEnum Region { get; private set; }
         //Data Values
         public double Rrp { get; private set; }
@@ -31,13 +29,13 @@ namespace NemTracker.Model.P5Minute
         public double Lower5MinRop { get; private set; }
         public double LowerRegRrp { get; private set; }
         public double LowerRegRop { get; private set; }
-        public double Totaldemand { get; private set; }
+        public double TotalDemand { get; private set; }
         public double AvailableGeneration { get; private set; }
         public double AvailableLoad { get; private set; }
         public double DemandForecast { get; private set; }
         public double DispatchableGeneration { get; private set; }
         public double DispatchableLoad { get; private set; }
-        public double NetinterChange { get; private set; }
+        public double NetInterchange { get; private set; }
         public double Lower5MinDispatch { get; private set; }
         public double Lower5MinImport { get; private set; }
         public double Lower5MinLocalDispatch { get; private set; }
@@ -112,9 +110,7 @@ namespace NemTracker.Model.P5Minute
         public double WdrInitialMw { get; private set; }
         public double WdrAvailable { get; private set; }
         public double WdrDispatched { get; private set; }
-        
-        
-        
+
     }
 
 }

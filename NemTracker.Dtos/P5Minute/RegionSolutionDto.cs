@@ -29,13 +29,13 @@ namespace NemTracker.Dtos.P5Minute
         public double Lower5MinRop { get; set; } = 0;
         public double LowerRegRrp { get; set; } = 0;
         public double LowerRegRop { get; set; } = 0;
-        public double Totaldemand { get; set; } = 0;
+        public double TotalDemand { get; set; } = 0;
         public double AvailableGeneration { get; set; } = 0;
         public double AvailableLoad { get; set; } = 0;
         public double DemandForecast { get; set; } = 0;
         public double DispatchableGeneration { get; set; } = 0;
         public double DispatchableLoad { get; set; } = 0;
-        public double NetinterChange { get; set; } = 0;
+        public double NetInterchange { get; set; } = 0;
         public double Lower5MinDispatch { get; set; } = 0;
         public double Lower5MinImport { get; set; } = 0;
         public double Lower5MinLocalDispatch { get; set; } = 0;
