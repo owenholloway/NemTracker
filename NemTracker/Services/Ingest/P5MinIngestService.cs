@@ -16,7 +16,7 @@ using Oxygen.Interfaces;
 
 namespace NemTracker.Services.Ingest
 {
-    public class P5IngestService : IHostedService
+    public class P5MinIngestService : IHostedService
     {
         
         private DateTime _nextRun;
@@ -28,7 +28,7 @@ namespace NemTracker.Services.Ingest
         private readonly IReadOnlyRepository _readOnlyRepository;
         private readonly IReadWriteRepository _readWriteRepository;
         
-        public P5IngestService(IConfiguration configuration)
+        public P5MinIngestService(IConfiguration configuration)
         {
             _configuration = configuration;
             var optionsBuilder = new DbContextOptionsBuilder();

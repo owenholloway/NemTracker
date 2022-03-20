@@ -30,7 +30,7 @@ namespace NemTracker
             //Config.Version = _configuration.GetSection("Misc").GetSection("Version").Value;
 
             services.AddHostedService<StationIngestService>();
-            services.AddHostedService<P5IngestService>();
+            services.AddHostedService<P5MinIngestService>();
             
             services.AddMvc(options =>
             {
