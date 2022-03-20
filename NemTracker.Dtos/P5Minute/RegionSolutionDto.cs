@@ -6,7 +6,8 @@ namespace NemTracker.Dtos.P5Minute
     public class RegionSolutionDto
     {
         public long Id { get; set; }
-        public long Interval { get; set; }
+        public DateTime RunTime { get; set; }
+        public DateTime Interval { get; set; }
         public RegionEnum Region { get; set; }
         //Data Values
         public double Rrp { get; set; } = 0;

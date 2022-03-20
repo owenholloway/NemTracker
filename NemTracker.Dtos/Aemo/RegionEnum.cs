@@ -7,9 +7,10 @@ namespace NemTracker.Dtos.Stations
      */   
     public enum RegionEnum : sbyte
     {
+        UNDF = -1,
         NSW1 = 2,
         VIC1 = 3,
-        OLD1 = 4,
+        QLD1 = 4,
         SA1  = 5,
         TAS1 = 7,
     }

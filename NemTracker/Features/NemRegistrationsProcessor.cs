@@ -261,8 +261,8 @@ namespace NemTracker.Features
         {
             return _tempStoragePath + "NEM-Registration-and-Exemption-List.xls";
         }
-        
-        public static string GetEnumDescription(Enum value)
+
+        private static string GetEnumDescription(Enum value)
         {
             var fi = value.GetType().GetField(value.ToString());
 

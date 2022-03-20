@@ -1,11 +1,16 @@
+using System;
+using NemTracker.Dtos.Stations;
 using Oxygen.Features;
 
 namespace NemTracker.Model.P5Minute
 {
     public class RegionSolution : Entity<long>
     {
-        
-        
+
+        public DateTime RunTime { get; set; }
+        public DateTime Interval { get; private set; }
+
+        public RegionEnum Region { get; private set; }
         //Data Values
         public double Rrp { get; private set; }
         public double Rop { get; private set; }
@@ -92,7 +97,7 @@ namespace NemTracker.Model.P5Minute
         public double LowerRegViolation { get; private set; }
         public double Lower60SecViolation { get; private set; }
         public double Lower6SecViolation { get; private set; }
-        public double LastChanged { get; private set; }
+        public DateTime LastChanged { get; private set; }
         public double TotalIntermittentGeneration { get; private set; }
         public double DemandAndNonSchedgen { get; private set; }
         public double Uigf { get; private set; }
@@ -107,5 +112,9 @@ namespace NemTracker.Model.P5Minute
         public double WdrInitialMw { get; private set; }
         public double WdrAvailable { get; private set; }
         public double WdrDispatched { get; private set; }
+        
+        
+        
     }
+
 }

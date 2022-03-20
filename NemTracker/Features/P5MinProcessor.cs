@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -8,6 +9,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using NemTracker.Dtos.P5Minute;
+using NemTracker.Dtos.Stations;
 
 namespace NemTracker.Features
 {
@@ -18,6 +20,7 @@ namespace NemTracker.Features
         private readonly string _reportPath = "Reports/Current/P5_Reports/";
         private string _nextInstructionNumber = null;
         private List<string> _files = new List<string>();
+        private readonly string _dateTimeFormat = "yyyy/MM/dd HH:mm:ss";
         
         public P5MinProcessor()
         {
@@ -92,8 +95,10 @@ namespace NemTracker.Features
             while (!File.Exists(P5MinPath() + "PUBLIC_P5MIN_" + file.PeriodStamp 
                                 + "_" + file.GenerationStamp + ".csv"))
             {
-                Thread.Sleep(1);
+                Thread.Sleep(15);
             }
+            
+            Thread.Sleep(15);
             
             while ((line = reader.ReadLine()) != null)
             {
@@ -120,7 +125,10 @@ namespace NemTracker.Features
         private RegionSolutionDto ProcessRegionSolutionLine(string[] line)
         {
             var dto = new RegionSolutionDto();
-
+            
+            dto.RunTime = GetDateTime(line[4]);
+            dto.Interval = GetDateTime(line[6]);
+            dto.Region = GetRegion(line[7]);
             dto.Rrp = CSVDoubleValue(line[8]);
             dto.Rop = CSVDoubleValue(line[9]);
             dto.ExcessGeneration = CSVDoubleValue(line[10]);
@@ -206,7 +214,7 @@ namespace NemTracker.Features
             dto.LowerRegViolation = CSVDoubleValue(line[90]);
             dto.Lower60SecViolation = CSVDoubleValue(line[91]);
             dto.Lower6SecViolation = CSVDoubleValue(line[92]);
-            //dto.LastChanged = DateTime.Parse(line[93],Da);
+            dto.LastChanged = GetDateTime(line[93]);
             dto.TotalIntermittentGeneration = CSVDoubleValue(line[94]);
             dto.DemandAndNonSchedgen = CSVDoubleValue(line[95]);
             dto.Uigf = CSVDoubleValue(line[96]);
@@ -298,6 +306,54 @@ namespace NemTracker.Features
             }
             
             return Double.Parse(value);
+        }
+
+        public RegionEnum GetRegion(string value)
+        {
+            if (value.Contains(GetEnumDescription(RegionEnum.NSW1)))
+            {
+                return RegionEnum.NSW1;
+            }
+            
+            if (value.Contains(GetEnumDescription(RegionEnum.VIC1)))
+            {
+                return RegionEnum.VIC1;
+            }
+            
+            if (value.Contains(GetEnumDescription(RegionEnum.QLD1)))
+            {
+                return RegionEnum.QLD1;
+            }
+            
+            if (value.Contains(GetEnumDescription(RegionEnum.SA1)))
+            {
+                return RegionEnum.SA1;
+            }
+            
+            if (value.Contains(GetEnumDescription(RegionEnum.TAS1)))
+            {
+                return RegionEnum.TAS1;
+            }
+
+            return RegionEnum.UNDF;
+        }
+        
+        private static string GetEnumDescription(Enum value)
+        {
+            var fi = value.GetType().GetField(value.ToString());
+
+            if (fi.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] attributes && attributes.Any())
+            {
+                return attributes.First().Description;
+            }
+
+            return value.ToString();
+        }
+
+        private DateTime GetDateTime(string value)
+        {
+            return DateTime.ParseExact(value.Replace("\"",""), 
+                _dateTimeFormat, new CultureInfo("En-AU"));
         }
         
     }
