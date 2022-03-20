@@ -116,6 +116,8 @@ namespace NemTracker.Model.P5Minute
         {
             var obj = new RegionSolution();
 
+            obj.Update(dto);
+            
             return obj;
         }
 

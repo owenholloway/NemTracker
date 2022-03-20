@@ -56,6 +56,7 @@ namespace NemTracker.Services.Ingest
                     var processP5DataTask = ProcessP5Data();
                     await processP5DataTask;
                     processP5DataTask.Dispose();
+                    _readWriteRepository.Commit();
                     
                     Console.WriteLine("P5 Data ingest is completed");
                     
@@ -81,10 +82,12 @@ namespace NemTracker.Services.Ingest
                 foreach (var solutionDto in dataResult.RegionSolutionDtos)
                 {
                     if (_readOnlyRepository.Table<RegionSolution, long>()
-                        .Any(s => s.Interval.Equals(solutionDto.Interval)))
+                        .Any(s => s.Interval.Equals(solutionDto.Interval) && 
+                                  s.Region.Equals(solutionDto.Region)))
                     {
                         var solution = _readWriteRepository.Table<RegionSolution, long>()
-                            .First(s => s.Interval.Equals(solutionDto.Interval));
+                            .First(s => s.Interval.Equals(solutionDto.Interval) && 
+                                        s.Region.Equals(solutionDto.Region));
                         
                         solution.Update(solutionDto);
                     }
