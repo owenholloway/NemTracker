@@ -1,5 +1,5 @@
 // ReSharper disable InconsistentNaming
-namespace NemTracker.Dtos.Stations
+namespace NemTracker.Dtos.Aemo
 {
     /*
      * Regions,

@@ -1,6 +1,6 @@
 CREATE TABLE Stations(
-    id uuid NOT NULL PRIMARY KEY,
-    participant_id UUID,
+    id bigserial NOT NULL PRIMARY KEY,
+    participant_id bigint,
     station_name varchar(256),
     region smallint NOT NULL DEFAULT -1,
     technology_type smallint  NOT NULL DEFAULT -1,

@@ -1,5 +1,5 @@
 CREATE TABLE region_solutions(
-     id BIGSERIAL PRIMARY KEY ,
+     id bigserial PRIMARY KEY ,
      run_time timestamp,
      interval timestamp,
      region smallint,
@@ -102,7 +102,8 @@ CREATE TABLE region_solutions(
      ss_wind_compliance_mw double precision,
      wdr_initial_mw double precision,
      wdr_available double precision,
-     wdr_dispatched double precision
+     wdr_dispatched double precision,
+     version smallint 
 );
 
 CREATE INDEX IX_region_solutions_interval ON region_solutions (interval);

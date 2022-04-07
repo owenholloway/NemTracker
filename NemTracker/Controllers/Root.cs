@@ -36,7 +36,7 @@ namespace NemTracker.Controllers
         [Route("sites")]
         public IActionResult Sites()
         {
-            var stations = _readOnlyRepository.Table<Station, Guid>().ToList();
+            var stations = _readOnlyRepository.Table<Station, long>().ToList();
 
             var stationDtos = stations.Select(station => station.GetDto()).ToList();
 

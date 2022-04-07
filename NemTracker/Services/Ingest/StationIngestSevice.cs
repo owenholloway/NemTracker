@@ -32,7 +32,7 @@ namespace NemTracker.Services.Ingest
             _configuration = configuration;
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseNpgsql(configuration.GetConnectionString("ApplicationDatabase"));
-            //optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
 
             var nemdbContext = new NEMDBContext(optionsBuilder.Options);
             _readOnlyRepository = new ReadOnlyRepository(nemdbContext);
@@ -87,14 +87,14 @@ namespace NemTracker.Services.Ingest
                 foreach (var participant in participants)
                 {
                     if (
-                        _readOnlyRepository.Table<Participant, Guid>()
+                        _readOnlyRepository.Table<Participant, long>()
                             .Any(P => P.Name.Equals(participant.Name)) &&
-                        _readOnlyRepository.Table<Participant, Guid>()
+                        _readOnlyRepository.Table<Participant, long>()
                             .Any(P => P.Name.Equals(participant.Name))
                     ) return;
                     
                     var obj = Participant.Create(participant);
-                    _readWriteRepository.Create<Participant, Guid>(obj);
+                    _readWriteRepository.Create<Participant, long>(obj);
                 }
 
             });
@@ -109,22 +109,22 @@ namespace NemTracker.Services.Ingest
 
                 foreach (var station in stations)
                 {
-                    if (_readOnlyRepository.Table<Station, Guid>()
+                    if (_readOnlyRepository.Table<Station, long>()
                         .Any(S => S.StationName.Equals(station.StationName) &&
-                                  _readOnlyRepository.Table<Station, Guid>()
+                                  _readOnlyRepository.Table<Station, long>()
                                       .Any(S => S.DUID.Equals(station.DUID)))) return;
 
-                    var participantId = Guid.Empty;
-                    if (_readOnlyRepository.Table<Participant, Guid>()
+                    var participantId = (long) 0;
+                    if (_readOnlyRepository.Table<Participant, long>()
                         .Any(P => P.Name.Contains(station.ParticipantName)))
                     {
-                        participantId = _readOnlyRepository.Table<Participant, Guid>()
+                        participantId = _readOnlyRepository.Table<Participant, long>()
                             .First(P => P.Name.Contains(station.ParticipantName)).Id;
                     }
 
                     station.ParticipantId = participantId;
                     var obj = Station.Create(station);
-                    _readWriteRepository.Create<Station, Guid>(obj);
+                    _readWriteRepository.Create<Station, long>(obj);
                 }
 
             });

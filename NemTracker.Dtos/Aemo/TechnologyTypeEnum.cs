@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace NemTracker.Dtos.Stations
+namespace NemTracker.Dtos.Aemo
 {
     public enum TechnologyTypeEnum : sbyte
     {

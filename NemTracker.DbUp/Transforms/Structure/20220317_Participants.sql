@@ -1,5 +1,5 @@
 CREATE TABLE Participants(
- id uuid NOT NULL PRIMARY KEY,
+ id bigserial NOT NULL PRIMARY KEY,
  name text,
  abn varchar(128),
  demand_response_service_provider_ancillary_service_load bool DEFAULT FALSE,

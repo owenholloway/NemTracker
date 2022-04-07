@@ -1,12 +1,13 @@
 using System;
+using NemTracker.Dtos.Aemo;
 
 namespace NemTracker.Dtos.Stations
 {
     public class StationDto
     {
         // ReSharper disable InconsistentNaming
-        public Guid Id { get; set; }
-        public Guid ParticipantId { get; set; }
+        public long Id { get; set; }
+        public long ParticipantId { get; set; }
         public string ParticipantName { get; set; }
         public string StationName { get; set; }
         public RegionEnum Region { get; set; }

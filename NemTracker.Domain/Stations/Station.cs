@@ -1,15 +1,16 @@
 using System;
+using NemTracker.Dtos.Aemo;
 using NemTracker.Dtos.Stations;
 using Oxygen.Features;
 using Oxygen.Guards;
 
 namespace NemTracker.Model.Stations
 {
-    public class Station : Entity<Guid>
+    public class Station : Entity<long>
     {
         
         // ReSharper disable InconsistentNaming
-        public Guid ParticipantId { get; private set; }
+        public long ParticipantId { get; private set; }
         public string StationName { get; private set; }
         public RegionEnum Region { get; private set; }
         public TechnologyTypeEnum TechnologyType { get; private set; }
@@ -61,7 +62,6 @@ namespace NemTracker.Model.Stations
         {
             var dto = new StationDto()
             {
-                Id = Id,
                 ParticipantId = ParticipantId,
                 StationName = StationName,
                 Region = Region,

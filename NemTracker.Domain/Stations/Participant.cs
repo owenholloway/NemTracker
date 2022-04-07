@@ -4,7 +4,7 @@ using Oxygen.Features;
 
 namespace NemTracker.Model.Stations
 {
-    public class Participant : Entity<Guid>
+    public class Participant : Entity<long>
     {
         public string Name { get; private set; }
         public string ABN { get; private set; }

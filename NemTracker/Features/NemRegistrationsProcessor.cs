@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using ExcelDataReader;
 using NemTracker.Dtos;
+using NemTracker.Dtos.Aemo;
 using NemTracker.Dtos.Stations;
 using static System.Int32;
 
@@ -153,6 +154,8 @@ namespace NemTracker.Features
                     
                     stationDto.StationName = dataTableItems[1].ToString().Trim();
 
+                    stationDto.Region = GetRegion(dataTableItems[2].ToString().Trim());
+                    
                     stationDto.DispatchType 
                         = GetDispatchType(dataTableItems[3].ToString());
 
@@ -272,6 +275,36 @@ namespace NemTracker.Features
             }
 
             return value.ToString();
+        }
+        
+        private RegionEnum GetRegion(string value)
+        {
+            if (value.Contains(GetEnumDescription(RegionEnum.NSW1)))
+            {
+                return RegionEnum.NSW1;
+            }
+            
+            if (value.Contains(GetEnumDescription(RegionEnum.VIC1)))
+            {
+                return RegionEnum.VIC1;
+            }
+            
+            if (value.Contains(GetEnumDescription(RegionEnum.QLD1)))
+            {
+                return RegionEnum.QLD1;
+            }
+            
+            if (value.Contains(GetEnumDescription(RegionEnum.SA1)))
+            {
+                return RegionEnum.SA1;
+            }
+            
+            if (value.Contains(GetEnumDescription(RegionEnum.TAS1)))
+            {
+                return RegionEnum.TAS1;
+            }
+
+            return RegionEnum.UNDF;
         }
         
     }

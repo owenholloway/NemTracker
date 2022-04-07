@@ -1,4 +1,5 @@
 using System;
+using NemTracker.Dtos.Aemo;
 using NemTracker.Dtos.P5Minute;
 using NemTracker.Dtos.Stations;
 using Oxygen.Features;
@@ -111,12 +112,16 @@ namespace NemTracker.Model.P5Minute
         public double WdrInitialMw { get; private set; }
         public double WdrAvailable { get; private set; }
         public double WdrDispatched { get; private set; }
+        
+        public long Version { get; private set; }
 
         public static RegionSolution Create(RegionSolutionDto dto)
         {
             var obj = new RegionSolution();
 
             obj.Update(dto);
+
+            obj.Version = 0;
             
             return obj;
         }
@@ -226,6 +231,7 @@ namespace NemTracker.Model.P5Minute
             WdrInitialMw = dto.WdrInitialMw;
             WdrAvailable = dto.WdrAvailable;
             WdrDispatched = dto.WdrDispatched;
+            Version += 1;
         }
         
     }
