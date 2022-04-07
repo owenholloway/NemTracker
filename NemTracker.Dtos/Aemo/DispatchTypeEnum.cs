@@ -1,6 +1,6 @@
 namespace NemTracker.Dtos.Aemo
 {
-    public enum DispatchTypeEnum
+    public enum DispatchTypeEnum : sbyte
     {
         Load = -1,
         Undefined = 0,

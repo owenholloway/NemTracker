@@ -2,7 +2,7 @@ using System.ComponentModel;
 
 namespace NemTracker.Dtos.Aemo
 {
-    public enum CategoryEnum
+    public enum CategoryEnum : sbyte
     {
         [Description("Undefined")]
         Undefined = -1,
