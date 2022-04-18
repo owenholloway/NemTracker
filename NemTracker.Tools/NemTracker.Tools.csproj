@@ -2,17 +2,13 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>NemTracker.Model</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\NemTracker.Dtos\NemTracker.Dtos.csproj" />
-      <ProjectReference Include="..\NemTracker.Tools\NemTracker.Tools.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Oxygen.Core" Version="1.5.0" />
     </ItemGroup>
 
 </Project>

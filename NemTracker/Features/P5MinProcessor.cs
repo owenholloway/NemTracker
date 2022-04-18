@@ -10,6 +10,7 @@ using System.Threading;
 using NemTracker.Dtos.Aemo;
 using NemTracker.Dtos.P5Minute;
 using NemTracker.Dtos.Stations;
+using NemTracker.Tools.Features;
 
 namespace NemTracker.Features
 {
@@ -130,7 +131,7 @@ namespace NemTracker.Features
             
             dto.RunTime = GetDateTime(line[4]);
             dto.Interval = GetDateTime(line[6]);
-            dto.Region = GetRegion(line[7]);
+            dto.Region = line[7].GetRegion();
             dto.Rrp = CSVDoubleValue(line[8]);
             dto.Rop = CSVDoubleValue(line[9]);
             dto.ExcessGeneration = CSVDoubleValue(line[10]);
@@ -308,48 +309,6 @@ namespace NemTracker.Features
             }
             
             return Double.Parse(value);
-        }
-
-        private RegionEnum GetRegion(string value)
-        {
-            if (value.Contains(GetEnumDescription(RegionEnum.NSW1)))
-            {
-                return RegionEnum.NSW1;
-            }
-            
-            if (value.Contains(GetEnumDescription(RegionEnum.VIC1)))
-            {
-                return RegionEnum.VIC1;
-            }
-            
-            if (value.Contains(GetEnumDescription(RegionEnum.QLD1)))
-            {
-                return RegionEnum.QLD1;
-            }
-            
-            if (value.Contains(GetEnumDescription(RegionEnum.SA1)))
-            {
-                return RegionEnum.SA1;
-            }
-            
-            if (value.Contains(GetEnumDescription(RegionEnum.TAS1)))
-            {
-                return RegionEnum.TAS1;
-            }
-
-            return RegionEnum.UNDF;
-        }
-        
-        private static string GetEnumDescription(Enum value)
-        {
-            var fi = value.GetType().GetField(value.ToString());
-
-            if (fi.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] attributes && attributes.Any())
-            {
-                return attributes.First().Description;
-            }
-
-            return value.ToString();
         }
 
         private DateTime GetDateTime(string value)
