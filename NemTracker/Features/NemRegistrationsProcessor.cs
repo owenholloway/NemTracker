@@ -11,6 +11,7 @@ using ExcelDataReader;
 using NemTracker.Dtos;
 using NemTracker.Dtos.Aemo;
 using NemTracker.Dtos.Stations;
+using NemTracker.Tools.Features;
 using static System.Int32;
 
 // ReSharper disable PossibleNullReferenceException
@@ -154,7 +155,7 @@ namespace NemTracker.Features
                     
                     stationDto.StationName = dataTableItems[1].ToString().Trim();
 
-                    stationDto.Region = GetRegion(dataTableItems[2].ToString().Trim());
+                    stationDto.Region = dataTableItems[2].ToString().Trim().GetRegion();
                     
                     stationDto.DispatchType 
                         = GetDispatchType(dataTableItems[3].ToString());
@@ -222,7 +223,7 @@ namespace NemTracker.Features
         {
             foreach (var dispatchType in (DispatchTypeEnum[]) Enum.GetValues(typeof(DispatchTypeEnum)))
             {
-                if (rawValue.Contains(GetEnumDescription(dispatchType)))
+                if (rawValue.Contains(dispatchType.GetDescription()))
                 {
                     return dispatchType;
                 }
@@ -235,7 +236,7 @@ namespace NemTracker.Features
         {
             foreach (var technologyType in (TechnologyTypeEnum[]) Enum.GetValues(typeof(TechnologyTypeEnum)))
             {
-                if (rawValue.Contains(GetEnumDescription(technologyType)))
+                if (rawValue.Contains(technologyType.GetDescription()))
                 {
                     return technologyType;
                 }
@@ -248,7 +249,7 @@ namespace NemTracker.Features
         {
             foreach (var technologyType in (TechnologyTypeDescriptorEnum[]) Enum.GetValues(typeof(TechnologyTypeDescriptorEnum)))
             {
-                if (rawValue.Contains(GetEnumDescription(technologyType)))
+                if (rawValue.Contains(technologyType.GetDescription()))
                 {
                     return technologyType;
                 }
@@ -265,47 +266,5 @@ namespace NemTracker.Features
             return _tempStoragePath + "NEM-Registration-and-Exemption-List.xls";
         }
 
-        private static string GetEnumDescription(Enum value)
-        {
-            var fi = value.GetType().GetField(value.ToString());
-
-            if (fi.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] attributes && attributes.Any())
-            {
-                return attributes.First().Description;
-            }
-
-            return value.ToString();
-        }
-        
-        private RegionEnum GetRegion(string value)
-        {
-            if (value.Contains(GetEnumDescription(RegionEnum.NSW1)))
-            {
-                return RegionEnum.NSW1;
-            }
-            
-            if (value.Contains(GetEnumDescription(RegionEnum.VIC1)))
-            {
-                return RegionEnum.VIC1;
-            }
-            
-            if (value.Contains(GetEnumDescription(RegionEnum.QLD1)))
-            {
-                return RegionEnum.QLD1;
-            }
-            
-            if (value.Contains(GetEnumDescription(RegionEnum.SA1)))
-            {
-                return RegionEnum.SA1;
-            }
-            
-            if (value.Contains(GetEnumDescription(RegionEnum.TAS1)))
-            {
-                return RegionEnum.TAS1;
-            }
-
-            return RegionEnum.UNDF;
-        }
-        
     }
 }

@@ -131,7 +131,7 @@ namespace NemTracker.Features
             
             dto.RunTime = GetDateTime(line[4]);
             dto.Interval = GetDateTime(line[6]);
-            dto.Region = line[7].GetRegion();
+            dto.Region = line[7].Trim().GetRegion();
             dto.Rrp = CSVDoubleValue(line[8]);
             dto.Rop = CSVDoubleValue(line[9]);
             dto.ExcessGeneration = CSVDoubleValue(line[10]);
