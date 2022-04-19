@@ -1,14 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text;
 using ExcelDataReader;
-using NemTracker.Dtos;
 using NemTracker.Dtos.Aemo;
 using NemTracker.Dtos.Stations;
 using NemTracker.Tools.Features;
@@ -219,7 +215,7 @@ namespace NemTracker.Features
          * Data Processing Helper Functions
          */
 
-        private DispatchTypeEnum GetDispatchType(string rawValue)
+        private static DispatchTypeEnum GetDispatchType(string rawValue)
         {
             foreach (var dispatchType in (DispatchTypeEnum[]) Enum.GetValues(typeof(DispatchTypeEnum)))
             {
@@ -232,7 +228,7 @@ namespace NemTracker.Features
             return DispatchTypeEnum.Undefined;
         }
         
-        private TechnologyTypeEnum GetTechnologyType(string rawValue)
+        private static TechnologyTypeEnum GetTechnologyType(string rawValue)
         {
             foreach (var technologyType in (TechnologyTypeEnum[]) Enum.GetValues(typeof(TechnologyTypeEnum)))
             {
@@ -245,7 +241,7 @@ namespace NemTracker.Features
             return TechnologyTypeEnum.Undefined;
         }
         
-        private TechnologyTypeDescriptorEnum GetTechnologyTypeDescriptor(string rawValue)
+        private static TechnologyTypeDescriptorEnum GetTechnologyTypeDescriptor(string rawValue)
         {
             foreach (var technologyType in (TechnologyTypeDescriptorEnum[]) Enum.GetValues(typeof(TechnologyTypeDescriptorEnum)))
             {
