@@ -12,7 +12,7 @@ using static System.Int32;
 
 // ReSharper disable PossibleNullReferenceException
 // We have to work with memory is a generally unsafe way to process the file 
-// this will be caught be error catching instead of checking value safely.
+// this will be caught be error catching instead of checking value safety.
 // Bad practice in general but I will make an exception for this.
 
 namespace NemTracker.Features
