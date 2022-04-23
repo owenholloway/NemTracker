@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using NemTracker.Model.P5Minute;
 using NemTracker.Model.Stations;
 
@@ -7,8 +8,10 @@ namespace NemTracker.Persistence.Features
     // ReSharper disable once InconsistentNaming
     public class NEMDBContext : DbContext
     {
+
         public NEMDBContext(DbContextOptions options) : base(options)
-        {}
+        {
+        }
 
         private static void BuildApplicationModel(ModelBuilder modelBuilder)
         {
@@ -28,9 +31,8 @@ namespace NemTracker.Persistence.Features
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql("Host=172.16.40.100;Database=nemtracker.test;" +
-                           "Username=nemtracker.test;Password=@Password123@")
-                .UseSnakeCaseNamingConvention();
-
+        {
+            optionsBuilder.UseSnakeCaseNamingConvention();
+        }
     }
 }

@@ -22,18 +22,15 @@ namespace NemTracker.Services.Ingest
         private DateTime _nextRun;
         private const string Schedule = "*/5 * * * *";
         private readonly CrontabSchedule _crontabSchedule;
-        
-        private IConfiguration _configuration;
-        
+
         private readonly IReadOnlyRepository _readOnlyRepository;
         private readonly IReadWriteRepository _readWriteRepository;
         
         public P5MinIngestService(IConfiguration configuration)
         {
-            _configuration = configuration;
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseNpgsql(configuration.GetConnectionString("ApplicationDatabase"));
-            //optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
 
             var nemdbContext = new NEMDBContext(optionsBuilder.Options);
             _readOnlyRepository = new ReadOnlyRepository(nemdbContext);

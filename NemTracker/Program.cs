@@ -13,14 +13,14 @@ namespace NemTracker
         private static void Main(string[] args)
         {
 
-            var p5Min = new P5MinProcessor();
-            
-            p5Min.ProcessInstructions();
-
+            var configuration = new ConfigurationBuilder()
+                .AddCommandLine(args)
+                .AddJsonFile("appsettings.Development.json")
+                .Build();
             
             try
             {
-                CreateWebHostBuilder(args).Run();
+                CreateWebHostBuilder(args, configuration).Run();
             }
             catch (Exception e)
             {
@@ -29,13 +29,9 @@ namespace NemTracker
 
         }
         
-        private static IWebHost CreateWebHostBuilder(string[] args)
+        private static IWebHost CreateWebHostBuilder(string[] args, IConfiguration configuration)
         {
             
-            var configuration = new ConfigurationBuilder()
-                .AddCommandLine(args)
-                .Build();
-
             var webHost = WebHost
                 .CreateDefaultBuilder(args)
                 .ConfigureServices(service => service.AddAutofac())

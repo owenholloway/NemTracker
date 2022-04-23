@@ -25,6 +25,7 @@ namespace NemTracker.Persistence.Features
             {
                 var config = c.Resolve<IConfiguration>();
                 var optionsBuilder = new DbContextOptionsBuilder();
+                var connstr = config.GetConnectionString("ApplicationDatabase");
                 optionsBuilder.UseNpgsql(config.GetConnectionString("ApplicationDatabase"));
                 optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
                 return optionsBuilder.Options;

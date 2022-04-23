@@ -14,33 +14,33 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NemTracker.Tools", "NemTrac
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Development|Any CPU = Development|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7271058F-0E9F-459D-B035-7438728794F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7271058F-0E9F-459D-B035-7438728794F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7271058F-0E9F-459D-B035-7438728794F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7271058F-0E9F-459D-B035-7438728794F6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B557DF49-1671-4F20-A20B-DDCA2B7DEC74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B557DF49-1671-4F20-A20B-DDCA2B7DEC74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7271058F-0E9F-459D-B035-7438728794F6}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{7271058F-0E9F-459D-B035-7438728794F6}.Development|Any CPU.Build.0 = Development|Any CPU
 		{B557DF49-1671-4F20-A20B-DDCA2B7DEC74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B557DF49-1671-4F20-A20B-DDCA2B7DEC74}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A0F1562-CF4B-4931-A22E-14CCBD486246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A0F1562-CF4B-4931-A22E-14CCBD486246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B557DF49-1671-4F20-A20B-DDCA2B7DEC74}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{B557DF49-1671-4F20-A20B-DDCA2B7DEC74}.Development|Any CPU.Build.0 = Development|Any CPU
 		{7A0F1562-CF4B-4931-A22E-14CCBD486246}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A0F1562-CF4B-4931-A22E-14CCBD486246}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64FDCC65-A68A-4BB8-B97D-08E3080FAFDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64FDCC65-A68A-4BB8-B97D-08E3080FAFDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A0F1562-CF4B-4931-A22E-14CCBD486246}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{7A0F1562-CF4B-4931-A22E-14CCBD486246}.Development|Any CPU.Build.0 = Development|Any CPU
 		{64FDCC65-A68A-4BB8-B97D-08E3080FAFDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64FDCC65-A68A-4BB8-B97D-08E3080FAFDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84A79281-6D38-478C-ABB6-9A89ABC45144}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84A79281-6D38-478C-ABB6-9A89ABC45144}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64FDCC65-A68A-4BB8-B97D-08E3080FAFDF}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{64FDCC65-A68A-4BB8-B97D-08E3080FAFDF}.Development|Any CPU.Build.0 = Development|Any CPU
 		{84A79281-6D38-478C-ABB6-9A89ABC45144}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84A79281-6D38-478C-ABB6-9A89ABC45144}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2C0880F0-BCBC-42BA-8D6C-3F6FF1CCE4DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C0880F0-BCBC-42BA-8D6C-3F6FF1CCE4DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84A79281-6D38-478C-ABB6-9A89ABC45144}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{84A79281-6D38-478C-ABB6-9A89ABC45144}.Development|Any CPU.Build.0 = Development|Any CPU
 		{2C0880F0-BCBC-42BA-8D6C-3F6FF1CCE4DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C0880F0-BCBC-42BA-8D6C-3F6FF1CCE4DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C0880F0-BCBC-42BA-8D6C-3F6FF1CCE4DF}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{2C0880F0-BCBC-42BA-8D6C-3F6FF1CCE4DF}.Development|Any CPU.Build.0 = Development|Any CPU
 	EndGlobalSection
 EndGlobal
