@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using NCrontab;
 using NemTracker.Features;
 using NemTracker.Model.Reports;
 using NemTracker.Persistence.Features;
@@ -15,7 +13,7 @@ using Oxygen.Interfaces;
 
 namespace NemTracker.Services.Ingest
 {
-    public class ReportService : IHostedService
+    public class ReportIngestService : IHostedService
     {
         
         private DateTime _nextRun;
@@ -23,11 +21,11 @@ namespace NemTracker.Services.Ingest
         private readonly IReadOnlyRepository _readOnlyRepository;
         private readonly IReadWriteRepository _readWriteRepository;
         
-        public ReportService(IConfiguration configuration)
+        public ReportIngestService(IConfiguration configuration)
         {
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseNpgsql(configuration.GetConnectionString("ApplicationDatabase"));
-            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+            //optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
 
             var nemdbContext = new NEMDBContext(optionsBuilder.Options);
             _readOnlyRepository = new ReadOnlyRepository(nemdbContext);
@@ -52,7 +50,7 @@ namespace NemTracker.Services.Ingest
                     
                     Console.WriteLine("Report Data ingest is completed");
                     _nextRun = DateTime.Now;
-                    _nextRun = _nextRun.AddSeconds(5);
+                    _nextRun = _nextRun.AddSeconds(10);
                     
                     await Task.Delay(UntilNextExecution(), cancellationToken);
 
@@ -67,7 +65,6 @@ namespace NemTracker.Services.Ingest
         {
             return Task.Run(() =>
             {
-                var processor = new P5ReportProcessor();
                 var reports = P5ReportProcessor.CheckNewInstructions();
 
                 foreach (var reportDto in reports.Where(reportDto => !_readOnlyRepository.Table<Report, long>()

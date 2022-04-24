@@ -1,20 +1,16 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using NCrontab;
 using NemTracker.Features;
-using NemTracker.Model.Reports;
-using NemTracker.Model.Stations;
 using NemTracker.Persistence.Features;
 using Oxygen.Features;
 using Oxygen.Interfaces;
 
-namespace NemTracker.Services.Ingest
+namespace NemTracker.Services.Ingest.Reports
 {
     public class P5MinIngestService : IHostedService
     {
@@ -30,7 +26,7 @@ namespace NemTracker.Services.Ingest
         {
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseNpgsql(configuration.GetConnectionString("ApplicationDatabase"));
-            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+            //optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
 
             var nemdbContext = new NEMDBContext(optionsBuilder.Options);
             _readOnlyRepository = new ReadOnlyRepository(nemdbContext);
@@ -74,8 +70,9 @@ namespace NemTracker.Services.Ingest
             return Task.Run(() =>
             {
                 var processor = new P5ReportProcessor();
+                //_readOnlyRepository.Table<Report, long>().FirstOrDefault(r => r.)
 
-                var regionSolutionsDtos = processor.ProcessLines();
+                //var regionSolutionsDtos = processor.ProcessLines();
 
                 /*
                 foreach (var solutionDto in regionSolutionDtos)
