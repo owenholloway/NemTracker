@@ -127,7 +127,7 @@ namespace NemTracker.Model.P5Minute
 
         public void Update(RegionSolutionDto dto)
         {
-            if (dto.Interval < Interval) return;
+            if (dto.RunTime < RunTime) return;
             
             RunTime = dto.RunTime;
             Interval = dto.Interval;

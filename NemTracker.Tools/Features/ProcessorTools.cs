@@ -1,8 +1,8 @@
 using System;
 
-namespace NemTracker.Features
+namespace NemTracker.Tools.Features
 {
-    public static class ProcessorHelpers
+    public static class ProcessorTools
     {
         public static double DoubleValue(this string value)
         {

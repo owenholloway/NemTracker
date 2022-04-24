@@ -1,6 +1,7 @@
 using System;
+using System.Globalization;
 
-namespace NemTracker.Features
+namespace NemTracker.Tools.Features
 {
     public static class TimeTools
     {
@@ -37,6 +38,18 @@ namespace NemTracker.Features
                          minute.ToString("00");
 
             return Int64.Parse(result);
+        }
+        
+        
+        public static DateTime GetDateTime(this string value, string dateTimeFormat)
+        {
+            return DateTime.ParseExact(value.Replace("\"",""), 
+                dateTimeFormat, new CultureInfo("En-AU"));
+        }
+
+        public static DateTime GetDateTime(this long value, string dateTimeFormat)
+        {
+            return value.ToString().GetDateTime(dateTimeFormat);
         }
         
         /*
