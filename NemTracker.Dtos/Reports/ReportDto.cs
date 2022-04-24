@@ -1,6 +1,6 @@
 using System;
 
-namespace NemTracker.Dtos.P5Minute
+namespace NemTracker.Dtos.Reports
 {
     public class ReportDto
     {
@@ -9,5 +9,6 @@ namespace NemTracker.Dtos.P5Minute
         public string Path { get; set; }
         public bool Processed { get; set; }
         public IntervalProcessTypeEnum IntervalProcessType { get; set; }
+        public ReportTypeEnum ReportType { get; set; }
     }
 }

@@ -1,8 +1,7 @@
 using System;
 using NemTracker.Dtos.Aemo;
-using NemTracker.Dtos.Stations;
 
-namespace NemTracker.Dtos.P5Minute
+namespace NemTracker.Dtos.Reports
 {
     public class RegionSolutionLightDto
     {

@@ -1,6 +1,6 @@
-namespace NemTracker.Dtos.P5Minute
+namespace NemTracker.Dtos.Reports
 {
-    public enum IntervalProcessTypeEnum
+    public enum IntervalProcessTypeEnum : short
     {
         Undefined = 0,
         Realtime = 1,

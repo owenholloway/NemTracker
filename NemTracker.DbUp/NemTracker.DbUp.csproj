@@ -21,6 +21,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AdditionalFiles Include="Transforms\Structure\20220424_Report.sql">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
       <None Remove="Transforms\CheckInit.sql" />
       <AdditionalFiles Include="Transforms\CheckInit.sql">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>

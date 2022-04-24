@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NCrontab;
 using NemTracker.Features;
-using NemTracker.Model.P5Minute;
+using NemTracker.Model.Reports;
 using NemTracker.Model.Stations;
 using NemTracker.Persistence.Features;
 using Oxygen.Features;
@@ -73,9 +73,16 @@ namespace NemTracker.Services.Ingest
         {
             return Task.Run(() =>
             {
-                var processor = new P5MinProcessor();
-                var dataResult = processor.ProcessInstructions();
+                var processor = new P5ReportProcessor();
+                var reports = P5ReportProcessor.CheckNewInstructions();
 
+                foreach (var reportDto in reports.Where(reportDto => !_readOnlyRepository.Table<Report, long>()
+                    .Any(r => r.IntervalDateTime.Equals(reportDto.IntervalDateTime))))
+                {
+                    _readWriteRepository.Create<Report, long>(Report.Create(reportDto));
+                }
+
+                /*
                 foreach (var solutionDto in dataResult.RegionSolutionDtos)
                 {
                     if (_readOnlyRepository.Table<RegionSolution, long>()
@@ -94,8 +101,8 @@ namespace NemTracker.Services.Ingest
                         _readWriteRepository.Create<RegionSolution, long>(solution);
                     }
                     
-                }
-                
+                }*/
+
             });
         }
 

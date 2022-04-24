@@ -1,9 +1,9 @@
 using System;
 using NemTracker.Dtos.Aemo;
-using NemTracker.Dtos.P5Minute;
+using NemTracker.Dtos.Reports;
 using Oxygen.Features;
 
-namespace NemTracker.Model.P5Minute
+namespace NemTracker.Model.Reports
 {
     public class RegionSolution : Entity<long>
     {

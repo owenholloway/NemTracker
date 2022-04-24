@@ -1,4 +1,4 @@
-using NemTracker.Dtos.P5Minute;
+using NemTracker.Dtos.Reports;
 
 namespace NemTracker.Tools.Features
 {

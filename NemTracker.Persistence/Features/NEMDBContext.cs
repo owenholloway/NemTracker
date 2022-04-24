@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using NemTracker.Model.P5Minute;
+using NemTracker.Model.Reports;
 using NemTracker.Model.Stations;
 
 namespace NemTracker.Persistence.Features
@@ -23,6 +23,7 @@ namespace NemTracker.Persistence.Features
         
         //P5 Data
         public DbSet<RegionSolution> RegionSolutions { get; set; }
+        public DbSet<Report> Reports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

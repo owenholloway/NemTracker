@@ -1,8 +1,6 @@
-using System;
-
-namespace NemTracker.Dtos.P5Minute
+namespace NemTracker.Dtos.Reports
 {
-    public enum AemoTypeEnum : short
+    public enum ReportTypeEnum : short
     {
         LocalPrice = 1,
         CaseSolution = 2,

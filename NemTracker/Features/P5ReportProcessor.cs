@@ -6,20 +6,20 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Threading;
-using NemTracker.Dtos.P5Minute;
+using NemTracker.Dtos.Reports;
+using NemTracker.Model.Reports;
 using NemTracker.Tools.Features;
 
 namespace NemTracker.Features
 {
-    public class P5MinProcessor
+    public class P5ReportProcessor
     {
         private readonly string _tempStoragePath;
-        private readonly string _nemwebHost = "http://nemweb.com.au/";
-        private readonly string _reportPath = "Reports/Current/P5_Reports/";
+        private static readonly string _nemwebHost = "http://nemweb.com.au/";
+        private static readonly string _reportPath = "Reports/Current/P5_Reports/";
         private List<string> _files = new List<string>();
-        private P5MinuteDataDto _data = new P5MinuteDataDto();
         
-        public P5MinProcessor()
+        public P5ReportProcessor()
         {
             _tempStoragePath = Environment
                 .GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/nemTracker/";
@@ -35,24 +35,12 @@ namespace NemTracker.Features
             }
         }
 
-        public P5MinuteDataDto ProcessInstructions()
-        {
-            var file = CheckNewInstructions();
-            
-            if (file is not null)
-            {
-                ProcessLines(file);
-            }
-
-            return _data;
-        }
-
-        private InstructionFile CheckNewInstructions()
+        public static List<ReportDto> CheckNewInstructions()
         {
             
-            _files = ListFiles();
+            var files = ListFiles();
 
-            var instructions = (from file in _files
+            var instructions = (from file in files
 
                 let instructionStamps = file
                     .Replace("/Reports/Current/P5_Reports/PUBLIC_P5MIN_", "")
@@ -63,11 +51,7 @@ namespace NemTracker.Features
                     Path = file, 
                     PeriodStamp = long.Parse(instructionStamps[0]), 
                     GenerationStamp =  long.Parse(instructionStamps[1])}).ToList();
-            
-            
-            
-            //TODO report persistence
-            
+
             var now = DateTime.Now;
             
             var nowAEMO 
@@ -79,7 +63,8 @@ namespace NemTracker.Features
                 .Select(instruction => instruction
                 .GetDto(instructionStamp)).ToList();
 
-            return null;
+            return currentReports;
+
         }
 
         private void ProcessLines(InstructionFile file)
@@ -105,13 +90,12 @@ namespace NemTracker.Features
                 
                 if (lineSplit[0].Contains("D"))
                 {
-                    var aemoType = (AemoTypeEnum) Int16.Parse(lineSplit[3]);
+                    var aemoType = (ReportTypeEnum) Int16.Parse(lineSplit[3]);
                     
                     switch (aemoType)
                     {
-                        case AemoTypeEnum.RegionSolution:
+                        case ReportTypeEnum.RegionSolution:
                             var dto = lineSplit.ProcessRegionSolutionLine();
-                            _data.RegionSolutionDtos.Add(dto);
                             break;
                     }
                 }
@@ -123,7 +107,7 @@ namespace NemTracker.Features
         /*
          * Helpers for file download and management
          */
-        private List<string> ListFiles()
+        private static List<string> ListFiles()
         {
             var html = string.Empty;
             var url = _nemwebHost + _reportPath;
@@ -187,7 +171,8 @@ namespace NemTracker.Features
                     IntervalDateTime = PeriodStamp.GetDateTime("yyyyMMddHHmm"),
                     Path = Path,
                     Processed = false,
-                    IntervalProcessType = (IntervalProcessTypeEnum) 0
+                    IntervalProcessType = (IntervalProcessTypeEnum) 0,
+                    ReportType = ReportTypeEnum.RegionSolution
                 };
 
                 dto.IntervalProcessType = PeriodStamp == nextNemInterval 
