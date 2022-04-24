@@ -13,14 +13,15 @@ namespace NemTracker
         private static void Main(string[] args)
         {
 
-            var configuration = new ConfigurationBuilder()
-                .AddCommandLine(args)
-                .AddJsonFile("appsettings.Development.json")
-                .Build();
-            
             try
             {
+                
+                var configuration = new ConfigurationBuilder()
+                    .AddCommandLine(args)
+                    .Build();
+                
                 CreateWebHostBuilder(args, configuration).Run();
+                
             }
             catch (Exception e)
             {
