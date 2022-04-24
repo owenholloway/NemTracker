@@ -9,24 +9,21 @@ using Microsoft.Extensions.Logging;
 using NCrontab;
 using NemTracker.Features;
 using NemTracker.Model.Reports;
-using NemTracker.Model.Stations;
 using NemTracker.Persistence.Features;
 using Oxygen.Features;
 using Oxygen.Interfaces;
 
 namespace NemTracker.Services.Ingest
 {
-    public class P5MinIngestService : IHostedService
+    public class ReportService : IHostedService
     {
         
         private DateTime _nextRun;
-        private const string Schedule = "*/5 * * * *";
-        private readonly CrontabSchedule _crontabSchedule;
 
         private readonly IReadOnlyRepository _readOnlyRepository;
         private readonly IReadWriteRepository _readWriteRepository;
         
-        public P5MinIngestService(IConfiguration configuration)
+        public ReportService(IConfiguration configuration)
         {
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseNpgsql(configuration.GetConnectionString("ApplicationDatabase"));
@@ -35,8 +32,6 @@ namespace NemTracker.Services.Ingest
             var nemdbContext = new NEMDBContext(optionsBuilder.Options);
             _readOnlyRepository = new ReadOnlyRepository(nemdbContext);
             _readWriteRepository = new ReadWriteRepository(nemdbContext);
-            _crontabSchedule = CrontabSchedule.Parse(Schedule, 
-                new CrontabSchedule.ParseOptions{IncludingSeconds = false});
         }
         
         public Task StartAsync(CancellationToken cancellationToken)
@@ -48,17 +43,16 @@ namespace NemTracker.Services.Ingest
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     
-                    Console.WriteLine("P5 Data ingest is starting");
+                    Console.WriteLine("Report Data ingest is starting");
                     
-                    var processP5DataTask = ProcessP5Data();
+                    var processP5DataTask = ProcessReportData();
                     await processP5DataTask;
                     processP5DataTask.Dispose();
                     _readWriteRepository.Commit();
                     
-                    Console.WriteLine("P5 Data ingest is completed");
-                    
-                    _nextRun = _crontabSchedule.GetNextOccurrence(DateTime.Now);
-                    _nextRun = _nextRun.AddSeconds(90);
+                    Console.WriteLine("Report Data ingest is completed");
+                    _nextRun = DateTime.Now;
+                    _nextRun = _nextRun.AddSeconds(5);
                     
                     await Task.Delay(UntilNextExecution(), cancellationToken);
 
@@ -69,34 +63,18 @@ namespace NemTracker.Services.Ingest
             
         }
 
-        private Task ProcessP5Data()
+        private Task ProcessReportData()
         {
             return Task.Run(() =>
             {
                 var processor = new P5ReportProcessor();
+                var reports = P5ReportProcessor.CheckNewInstructions();
 
-                var regionSolutionsDtos = processor.ProcessLines();
-
-                /*
-                foreach (var solutionDto in regionSolutionDtos)
+                foreach (var reportDto in reports.Where(reportDto => !_readOnlyRepository.Table<Report, long>()
+                    .Any(r => r.IntervalDateTime.Equals(reportDto.IntervalDateTime))))
                 {
-                    if (_readOnlyRepository.Table<RegionSolution, long>()
-                        .Any(s => s.Interval.Equals(solutionDto.Interval) && 
-                                  s.Region.Equals(solutionDto.Region)))
-                    {
-                        var solution = _readWriteRepository.Table<RegionSolution, long>()
-                            .First(s => s.Interval.Equals(solutionDto.Interval) && 
-                                        s.Region.Equals(solutionDto.Region));
-                        
-                        solution.Update(solutionDto);
-                    }
-                    else
-                    {
-                        var solution = RegionSolution.Create(solutionDto);
-                        _readWriteRepository.Create<RegionSolution, long>(solution);
-                    }
-                    
-                }*/
+                    _readWriteRepository.Create<Report, long>(Report.Create(reportDto));
+                }
 
             });
         }

@@ -31,6 +31,7 @@ namespace NemTracker
 
             services.AddHostedService<StationIngestService>();
             services.AddHostedService<P5MinIngestService>();
+            services.AddHostedService<ReportService>();
             
             services.AddMvc(options =>
             {

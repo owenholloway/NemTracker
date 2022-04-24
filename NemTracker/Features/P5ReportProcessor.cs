@@ -67,22 +67,25 @@ namespace NemTracker.Features
 
         }
 
-        private void ProcessLines(InstructionFile file)
+        public List<RegionSolutionDto> ProcessLines(ReportDto file)
         {
             var results = new List<RegionSolutionDto>();
-            var fileName = P5MinPath() + "PUBLIC_P5MIN_" + file.PeriodStamp + "_" + file.GenerationStamp;
+            var fileName = P5MinPath() + "PUBLIC_P5MIN_" + file.IntervalDateTime.ToString("yyyyMMddHHmm")  
+                           + "_" +  file.PublishDateTime.ToString("yyyyMMddHHmmss");
             
             using var reader = new StreamReader(fileName + ".csv");
 
             string line;
 
-            while (!File.Exists(P5MinPath() + "PUBLIC_P5MIN_" + file.PeriodStamp 
-                                + "_" + file.GenerationStamp + ".csv"))
+            while (!File.Exists(P5MinPath() + "PUBLIC_P5MIN_" + file.IntervalDateTime.ToString("yyyyMMddHHmm")
+                                + "_" + file.PublishDateTime.ToString("yyyyMMddHHmmss") + ".csv"))
             {
                 Thread.Sleep(15);
             }
             
             Thread.Sleep(15);
+
+            var regionSolutions = new List<RegionSolutionDto>();
             
             while ((line = reader.ReadLine()) != null)
             {
@@ -101,7 +104,9 @@ namespace NemTracker.Features
                 }
                 
             }
-            
+
+            return regionSolutions;
+
         }
 
         /*
@@ -133,9 +138,10 @@ namespace NemTracker.Features
              return files;
         }
 
-        private void DownloadExtractInstruction(InstructionFile file)
+        private void DownloadExtractInstruction(ReportDto file)
         {
-            var fileName = P5MinPath() + file.PeriodStamp + "_" + file.GenerationStamp;
+            var fileName = P5MinPath() + file.IntervalDateTime.ToString("yyyyMMddHHmm") 
+                                       + "_" + file.PublishDateTime.ToString("yyyyMMddHHmmss");
 
             var zipExists = File.Exists(fileName + ".zip");
             
@@ -148,8 +154,8 @@ namespace NemTracker.Features
                 );
             }
             
-            if (!File.Exists(P5MinPath() + "PUBLIC_P5MIN_" + file.PeriodStamp 
-                             + "_" + file.GenerationStamp + ".csv"))
+            if (!File.Exists(P5MinPath() + "PUBLIC_P5MIN_" + file.IntervalDateTime.ToString("yyyyMMddHHmm")
+                             + "_" + file.PublishDateTime.ToString("yyyyMMddHHmmss") + ".csv"))
             {
                 ZipFile.ExtractToDirectory(fileName + ".zip",
                     P5MinPath());
