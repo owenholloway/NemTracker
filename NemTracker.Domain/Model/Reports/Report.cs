@@ -2,7 +2,7 @@ using System;
 using NemTracker.Dtos.Reports;
 using Oxygen.Features;
 
-namespace NemTracker.Model.Reports
+namespace NemTracker.Model.Model.Reports
 {
     public class Report : Entity<long>
     {
@@ -30,6 +30,24 @@ namespace NemTracker.Model.Reports
             Processed = dto.Processed;
             IntervalProcessType = dto.IntervalProcessType;
             ReportType = dto.ReportType;
+        }
+
+        public void MarkProcessed()
+        {
+            Processed = true;
+        }
+        
+        public ReportDto GetDto()
+        {
+            return new ReportDto
+            {
+                PublishDateTime = PublishDateTime,
+                IntervalDateTime = IntervalDateTime,
+                Path = Path,
+                Processed = Processed,
+                IntervalProcessType = IntervalProcessType,
+                ReportType = ReportType
+            };
         }
         
     }

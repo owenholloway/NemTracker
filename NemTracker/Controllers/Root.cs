@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NemTracker.Dtos.Stations;
 using NemTracker.Features;
-using NemTracker.Model.Stations;
+using NemTracker.Model.Model.Stations;
 using Oxygen.Interfaces;
 
 namespace NemTracker.Controllers

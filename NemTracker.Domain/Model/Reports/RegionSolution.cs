@@ -3,7 +3,7 @@ using NemTracker.Dtos.Aemo;
 using NemTracker.Dtos.Reports;
 using Oxygen.Features;
 
-namespace NemTracker.Model.Reports
+namespace NemTracker.Model.Model.Reports
 {
     public class RegionSolution : Entity<long>
     {

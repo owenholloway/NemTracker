@@ -1,6 +1,6 @@
 using System;
 
-namespace NemTracker.Services
+namespace NemTracker.Features
 {
     public static class ExceptionHandler
     {

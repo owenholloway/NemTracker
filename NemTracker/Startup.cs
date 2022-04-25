@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NemTracker.Features;
 using NemTracker.Services;
 using NemTracker.Services.Ingest;
-using NemTracker.Services.Ingest.Reports;
 
 namespace NemTracker
 {
@@ -31,7 +31,6 @@ namespace NemTracker
             //Config.Version = _configuration.GetSection("Misc").GetSection("Version").Value;
 
             services.AddHostedService<StationIngestService>();
-            services.AddHostedService<P5MinIngestService>();
             services.AddHostedService<ReportIngestService>();
             
             services.AddMvc(options =>

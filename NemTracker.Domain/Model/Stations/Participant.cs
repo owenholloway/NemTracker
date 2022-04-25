@@ -1,8 +1,7 @@
-using System;
 using NemTracker.Dtos.Stations;
 using Oxygen.Features;
 
-namespace NemTracker.Model.Stations
+namespace NemTracker.Model.Model.Stations
 {
     public class Participant : Entity<long>
     {

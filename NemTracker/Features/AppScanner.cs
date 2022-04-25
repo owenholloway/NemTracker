@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace NemTracker.Services
+namespace NemTracker.Features
 {
     public class AppScanner
     {

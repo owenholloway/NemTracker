@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
-using System.Threading;
 using NemTracker.Dtos.Reports;
-using NemTracker.Model.Reports;
 using NemTracker.Tools.Features;
 
-namespace NemTracker.Features
+namespace NemTracker.Features.Tools
 {
     public class P5ReportProcessor
     {
@@ -69,25 +66,17 @@ namespace NemTracker.Features
 
         public List<RegionSolutionDto> ProcessLines(ReportDto file)
         {
+            DownloadExtractInstruction(file);
+            
             var results = new List<RegionSolutionDto>();
             var fileName = P5MinPath() + "PUBLIC_P5MIN_" + file.IntervalDateTime.ToString("yyyyMMddHHmm")  
                            + "_" +  file.PublishDateTime.ToString("yyyyMMddHHmmss");
             
             using var reader = new StreamReader(fileName + ".csv");
 
-            string line;
-
-            while (!File.Exists(P5MinPath() + "PUBLIC_P5MIN_" + file.IntervalDateTime.ToString("yyyyMMddHHmm")
-                                + "_" + file.PublishDateTime.ToString("yyyyMMddHHmmss") + ".csv"))
-            {
-                Thread.Sleep(15);
-            }
-            
-            Thread.Sleep(15);
-
             var regionSolutions = new List<RegionSolutionDto>();
             
-            while ((line = reader.ReadLine()) != null)
+            while (reader.ReadLine() is { } line)
             {
                 var lineSplit = line.Split(",");
                 
@@ -99,6 +88,7 @@ namespace NemTracker.Features
                     {
                         case ReportTypeEnum.RegionSolution:
                             var dto = lineSplit.ProcessRegionSolutionLine();
+                            regionSolutions.Add(dto);
                             break;
                     }
                 }

@@ -15,7 +15,7 @@ using static System.Int32;
 // this will be caught be error catching instead of checking value safety.
 // Bad practice in general but I will make an exception for this.
 
-namespace NemTracker.Features
+namespace NemTracker.Features.Tools
 {
     public class NemRegistrationsProcessor
     {

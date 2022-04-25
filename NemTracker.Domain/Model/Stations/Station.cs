@@ -1,10 +1,9 @@
-using System;
 using NemTracker.Dtos.Aemo;
 using NemTracker.Dtos.Stations;
 using Oxygen.Features;
 using Oxygen.Guards;
 
-namespace NemTracker.Model.Stations
+namespace NemTracker.Model.Model.Stations
 {
     public class Station : Entity<long>
     {

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using NemTracker.Model.Reports;
-using NemTracker.Model.Stations;
+using NemTracker.Model.Model.Reports;
+using NemTracker.Model.Model.Stations;
 
 namespace NemTracker.Persistence.Features
 {
