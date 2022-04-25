@@ -26,7 +26,7 @@ public class ReportHandler : IObservable<ReportDto>
 
     }
 
-    public void NewReportPublished(ReportDto reportDto)
+    public void ReportToBeConsumed(ReportDto reportDto)
     {
         foreach (var observer in _observers)
         {

@@ -32,6 +32,7 @@ namespace NemTracker
 
             services.AddHostedService<StationIngestService>();
             services.AddHostedService<ReportIngestService>();
+            services.AddHostedService<BackFillIngestService>();
             
             services.AddMvc(options =>
             {
