@@ -72,28 +72,35 @@ namespace NemTracker.Services.Ingest
             return Task.Run(() =>
             {
 
-                if (!_readOnlyRepository.Table<Report, long>()
-                    .Any(r => r.Processed == false 
-                              && r.IntervalProcessType == IntervalProcessTypeEnum.Historical)) return;
+                var reportConsumed = false;
 
-                Console.WriteLine("P5 Backfill Data ingest is starting");
-                
-                var report = _readWriteRepository.Table<Report, long>()
-                    .FirstOrDefault(r => r.Processed == false 
-                                         && r.IntervalProcessType == IntervalProcessTypeEnum.Historical);
-
-                if (report?.IntervalDateTime.Ticks - DateTime.Now.Ticks > 2 * TicksPerDay)
+                while (!reportConsumed)
                 {
-                    _readWriteRepository.Delete<Report, long>(report);
-                    return;
+                    if (!_readOnlyRepository.Table<Report, long>()
+                            .Any(r => r.Processed == false 
+                                      && r.IntervalProcessType == IntervalProcessTypeEnum.Historical)) return;
+
+                    Console.WriteLine("P5 Backfill Data ingest is starting");
+                
+                    var report = _readWriteRepository.Table<Report, long>()
+                        .FirstOrDefault(r => r.Processed == false 
+                                             && r.IntervalProcessType == IntervalProcessTypeEnum.Historical);
+
+                    if (report?.IntervalDateTime.Ticks - DateTime.Now.Ticks > 2 * TicksPerDay)
+                    {
+                        _readWriteRepository.Delete<Report, long>(report);
+                        Console.WriteLine("P5 Backfill purged old report");
+                        continue;
+                    }
+                
+                    _reportHandler.ReportToBeConsumed(report?.GetDto());
+                
+                    report?.MarkProcessed();
+                    reportConsumed = true;
+                
+                    Console.WriteLine("P5 Backfill Data ingest is complete");
                 }
                 
-                _reportHandler.ReportToBeConsumed(report?.GetDto());
-                
-                report?.MarkProcessed();
-                
-                Console.WriteLine("P5 Backfill Data ingest is complete");
-
             });
         }
 
