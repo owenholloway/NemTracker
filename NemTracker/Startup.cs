@@ -7,8 +7,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NemTracker.Features;
+using NemTracker.Persistence.Features;
 using NemTracker.Services;
 using NemTracker.Services.Ingest;
+using AutoMapper = NemTracker.Persistence.Features.AutoMapper;
 
 namespace NemTracker
 {
@@ -93,6 +95,7 @@ namespace NemTracker
             Console.WriteLine("ConfigureContainer Start");
             
             builder.RegisterModule(new Persistence.Features.Persistence());
+            builder.RegisterModule(new Persistence.Features.AutoMapper());
             builder.RegisterAssemblyModules(AppScanner.GetAssemblies());
 
             Console.WriteLine("ConfigureContainer End");

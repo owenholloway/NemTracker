@@ -107,10 +107,13 @@ namespace NemTracker.Services.Ingest
 
                 foreach (var station in stations)
                 {
-                    if (_readOnlyRepository.Table<Station, long>()
-                        .Any(S => S.StationName.Equals(station.StationName) &&
-                                  _readOnlyRepository.Table<Station, long>()
-                                      .Any(S => S.DUID.Equals(station.DUID)))) return;
+                    var stationNameMatches = _readOnlyRepository.Table<Station, long>()
+                        .Any(s => s.StationName.Equals(station.StationName));
+
+                    var stationDUIDMatches = _readOnlyRepository.Table<Station, long>()
+                        .Any(s => s.DUID.Equals(station.DUID));
+                    
+                    if (stationNameMatches && stationDUIDMatches) return;
 
                     var participantId = (long) 0;
                     if (_readOnlyRepository.Table<Participant, long>()

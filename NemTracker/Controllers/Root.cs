@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NemTracker.Dtos.Stations;
 using NemTracker.Features;
@@ -36,7 +38,8 @@ namespace NemTracker.Controllers
         [Route("sites")]
         public IActionResult Sites()
         {
-            var stations = _readOnlyRepository.Table<Station, long>().ToList();
+            var stations = _readOnlyRepository.Table<Station, long>()
+                .ProjectToList<Station>();
 
             var stationDtos = stations.Select(station => station.GetDto()).ToList();
 
