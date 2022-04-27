@@ -31,8 +31,8 @@ build:
     - docker info
     - echo $REGISTRY_LOGIN >> api-login.private
   script:
-    - docker build -t $CI_REGISTRY/hephaestus/nemtracker/api:latest --secret id=api-login,src=api-login.private .
-    - docker build -t $CI_REGISTRY/hephaestus/nemtracker/api:$version_major.$version_minor.$version_revision --secret id=api-login,src=api-login.private .
+    - DOCKER_BUILDKIT=1 docker build -t $CI_REGISTRY/hephaestus/nemtracker/api:latest --secret id=api-login,src=api-login.private .
+    - DOCKER_BUILDKIT=1 docker build -t $CI_REGISTRY/hephaestus/nemtracker/api:$version_major.$version_minor.$version_revision --secret id=api-login,src=api-login.private .
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker push $CI_REGISTRY/hephaestus/nemtracker/api:latest
     - docker push $CI_REGISTRY/hephaestus/nemtracker/api:$version_major.$version_minor.$version_revision
