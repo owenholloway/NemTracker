@@ -23,12 +23,9 @@ namespace NemTracker.Persistence.Features
             //Db Context Options
             builder.Register(c =>
             {
-                var config = c.Resolve<IConfiguration>();
                 var optionsBuilder = new DbContextOptionsBuilder();
                 var connstr = Environment.GetEnvironmentVariable("APPLICATION_DATABASE");
-                Console.WriteLine(connstr);
                 optionsBuilder.UseNpgsql(connstr);
-                optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
                 return optionsBuilder.Options;
             }).As<DbContextOptions>().InstancePerDependency();
             
