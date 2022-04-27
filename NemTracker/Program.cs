@@ -18,6 +18,7 @@ namespace NemTracker
                 
                 var configuration = new ConfigurationBuilder()
                     .AddCommandLine(args)
+                    .AddEnvironmentVariables()
                     .Build();
                 
                 CreateWebHostBuilder(args, configuration).Run();

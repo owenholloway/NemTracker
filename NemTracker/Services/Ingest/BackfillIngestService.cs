@@ -33,7 +33,7 @@ namespace NemTracker.Services.Ingest
         {
             
             var optionsBuilder = new DbContextOptionsBuilder();
-            optionsBuilder.UseNpgsql(configuration.GetConnectionString("ApplicationDatabase"));
+            optionsBuilder.UseNpgsql(configuration.GetValue<string>("APPLICATION_DATABASE"));
 
             var nemdbContext = new NEMDBContext(optionsBuilder.Options);
             _readOnlyRepository = new ReadOnlyRepository(nemdbContext);

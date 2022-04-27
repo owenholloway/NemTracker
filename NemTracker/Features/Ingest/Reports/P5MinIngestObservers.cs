@@ -42,7 +42,7 @@ namespace NemTracker.Features.Ingest.Reports
         public P5MinIngestObserver(IConfiguration configuration)
         {
             var optionsBuilder = new DbContextOptionsBuilder();
-            optionsBuilder.UseNpgsql(configuration.GetConnectionString("ApplicationDatabase"));
+            optionsBuilder.UseNpgsql(configuration.GetValue<string>("APPLICATION_DATABASE"));
             //optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
 
             var nemdbContext = new NEMDBContext(optionsBuilder.Options);

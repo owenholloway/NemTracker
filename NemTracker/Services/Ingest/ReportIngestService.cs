@@ -34,7 +34,7 @@ namespace NemTracker.Services.Ingest
             _lastPeriodProcessed = new DateTime();
             
             var optionsBuilder = new DbContextOptionsBuilder();
-            optionsBuilder.UseNpgsql(configuration.GetConnectionString("ApplicationDatabase"));
+            optionsBuilder.UseNpgsql(configuration.GetValue<string>("APPLICATION_DATABASE"));
             //optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
 
             var nemdbContext = new NEMDBContext(optionsBuilder.Options);

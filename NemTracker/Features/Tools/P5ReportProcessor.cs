@@ -110,7 +110,11 @@ namespace NemTracker.Features.Tools
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.AutomaticDecompression = DecompressionMethods.GZip;
 
-            using (var response = (HttpWebResponse)request.GetResponse())
+            var response = (HttpWebResponse) request.GetResponse();
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return new List<string>();
+            }
             using (var stream = response.GetResponseStream())
             using (var reader = new StreamReader(stream))
             {
