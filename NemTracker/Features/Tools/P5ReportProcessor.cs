@@ -21,6 +21,8 @@ namespace NemTracker.Features.Tools
             _tempStoragePath = Environment
                 .GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/nemTracker/";
 
+            Console.WriteLine(_tempStoragePath);
+            
             if (!Directory.Exists(Environment.SpecialFolder.LocalApplicationData.ToString()))
             {
                 Directory.CreateDirectory(Environment.SpecialFolder.LocalApplicationData.ToString());
