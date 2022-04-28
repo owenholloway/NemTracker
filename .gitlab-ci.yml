@@ -30,7 +30,7 @@ build-dbup:
     - main
   before_script:
     - docker info
-    - cd ./NemTracker.DbUP
+    - cd ./NemTracker.DbUp
   script:
     - DOCKER_BUILDKIT=1 docker build -t $CI_REGISTRY/hephaestus/nemtracker/dbup:latest .
     - DOCKER_BUILDKIT=1 docker build -t $CI_REGISTRY/hephaestus/nemtracker/dbup:$version_major.$version_minor.$version_revision .
