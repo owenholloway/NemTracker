@@ -52,8 +52,8 @@ build-api:
     - docker push $CI_REGISTRY/hephaestus/nemtracker/api:latest
     - docker push $CI_REGISTRY/hephaestus/nemtracker/api:$version_major.$version_minor.$version_revision
 
-build-api:
-  stage: build
+revise:
+  stage: revise
   needs:
   - build-dbup
   - build-api
