@@ -26,13 +26,12 @@ namespace NemTracker
             _configuration = configuration;
         }
         
+
         
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             Console.WriteLine("ConfigureServices Start");
-            
-            //Config.Version = _configuration.GetSection("Misc").GetSection("Version").Value;
 
             services.AddHostedService<StationIngestService>();
             //services.AddHostedService<ReportIngestService>();
@@ -48,8 +47,8 @@ namespace NemTracker
             Console.WriteLine("ConfigureServices Completed");
 
         }
-        
-        
+
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             Console.WriteLine("Configure Start");
@@ -59,6 +58,10 @@ namespace NemTracker
             {
                 // Do work that doesn't write to the Response.
                 //Console.WriteLine(context.Connection.RemoteIpAddress);
+                
+                //This adds the CORS
+                //TODO THIS IS NOT PRODUCTION READY CODE
+                context.Response.Headers.Add("Access-Control-Allow-Origin","*");
                 await next.Invoke();
                 // Do logging or other work that doesn't write to the Response.
             });
@@ -95,7 +98,7 @@ namespace NemTracker
         public static void ConfigureContainer(ContainerBuilder builder)
         {
             Console.WriteLine("ConfigureContainer Start");
-            
+
             builder.RegisterModule(new NemTrackerPersistence());
             builder.RegisterModule(new MmsPersistence());
             builder.RegisterModule(new Persistence.Features.AutoMapper());

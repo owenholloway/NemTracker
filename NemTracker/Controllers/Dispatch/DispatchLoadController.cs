@@ -1,5 +1,8 @@
 using System.Linq;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
+using NemTracker.Dtos.MmsData;
 using NemTracker.Model.Model.MmsData.Dispatch;
 using NemTracker.Persistence.Interfaces;
 
@@ -12,20 +15,26 @@ public class DispatchLoadController : Controller
 {
 
     public IMmsReadOnlyRepository _MmsReadOnlyRepository;
-
-    public DispatchLoadController(IMmsReadOnlyRepository mmsReadOnlyRepository)
+    private readonly MapperConfiguration _mapperConfiguration;
+    
+    public DispatchLoadController(
+        IMmsReadOnlyRepository mmsReadOnlyRepository, 
+        MapperConfiguration mapperConfiguration)
     {
         _MmsReadOnlyRepository = mmsReadOnlyRepository;
+        _mapperConfiguration = mapperConfiguration;
     }
     
     
     [HttpGet]
-    [Route("{duid}")]
-    public IActionResult GetDuidLoad(string duid)
+    [Route("{duid}/tiny")]
+    public IActionResult GetDispatchLoadTiny(string duid)
     {
 
         var result = _MmsReadOnlyRepository.Table<DispatchLoad, long>()
-            .Where(dl => dl.Duid.Equals(duid)).ToList();
+            .Where(dl => dl.Duid.Equals(duid))
+            .ProjectTo<DispatchLoadTinyDto>(_mapperConfiguration)
+            .OrderBy(dl => dl.DispatchInterval).ToList();
         
         return Ok(result);
     }

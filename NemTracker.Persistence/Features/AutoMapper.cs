@@ -12,6 +12,7 @@ namespace NemTracker.Persistence.Features
                     => new MapperConfiguration(config =>
                     {
                         config.AddP5Reports();
+                        config.AddDispatch();
                         
                     }))
                 .InstancePerLifetimeScope();
