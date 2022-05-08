@@ -11,6 +11,7 @@ using NemTracker.Features.Tools;
 using NemTracker.Model.Model.Reports;
 using NemTracker.Model.Observables;
 using NemTracker.Persistence.Features;
+using NemTracker.Persistence.Features.NemTrackerData;
 using Oxygen.Features;
 using Oxygen.Interfaces;
 
@@ -35,7 +36,7 @@ namespace NemTracker.Services.Ingest
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseNpgsql(configuration.GetValue<string>("APPLICATION_DATABASE"));
 
-            var nemdbContext = new NEMDBContext(optionsBuilder.Options);
+            var nemdbContext = new NEMTrackerContext(optionsBuilder.Options);
             _readOnlyRepository = new ReadOnlyRepository(nemdbContext);
             _readWriteRepository = new ReadWriteRepository(nemdbContext);
 

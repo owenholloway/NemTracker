@@ -1,14 +1,12 @@
 ﻿using System;
 using Autofac;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Oxygen.Features;
 using Oxygen.Interfaces;
 
-namespace NemTracker.Persistence.Features
+namespace NemTracker.Persistence.Features.NemTrackerData
 {
-    public class Persistence : Module
+    public class NemTrackerPersistence : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
@@ -29,7 +27,7 @@ namespace NemTracker.Persistence.Features
                 return optionsBuilder.Options;
             }).As<DbContextOptions>().InstancePerDependency();
             
-            builder.RegisterType<NEMDBContext>().As<DbContext>().InstancePerLifetimeScope();
+            builder.RegisterType<NEMTrackerContext>().As<DbContext>().InstancePerLifetimeScope();
 
         }
     }

@@ -25,8 +25,4 @@
       <PackageReference Include="Oxygen.Core" Version="1.5.2" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Model" />
-    </ItemGroup>
-
 </Project>

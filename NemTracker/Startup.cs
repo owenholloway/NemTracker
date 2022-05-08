@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NemTracker.Features;
 using NemTracker.Persistence.Features;
+using NemTracker.Persistence.Features.MMSData;
+using NemTracker.Persistence.Features.NemTrackerData;
 using NemTracker.Services;
 using NemTracker.Services.Ingest;
 using AutoMapper = NemTracker.Persistence.Features.AutoMapper;
@@ -33,8 +35,8 @@ namespace NemTracker
             //Config.Version = _configuration.GetSection("Misc").GetSection("Version").Value;
 
             services.AddHostedService<StationIngestService>();
-            services.AddHostedService<ReportIngestService>();
-            services.AddHostedService<BackFillIngestService>();
+            //services.AddHostedService<ReportIngestService>();
+            //services.AddHostedService<BackFillIngestService>();
             
             services.AddMvc(options =>
             {
@@ -94,7 +96,8 @@ namespace NemTracker
         {
             Console.WriteLine("ConfigureContainer Start");
             
-            builder.RegisterModule(new Persistence.Features.Persistence());
+            builder.RegisterModule(new NemTrackerPersistence());
+            builder.RegisterModule(new MmsPersistence());
             builder.RegisterModule(new Persistence.Features.AutoMapper());
             builder.RegisterAssemblyModules(AppScanner.GetAssemblies());
 

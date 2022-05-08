@@ -1,15 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using NemTracker.Model.Model.Reports;
 using NemTracker.Model.Model.Stations;
 
-namespace NemTracker.Persistence.Features
+namespace NemTracker.Persistence.Features.NemTrackerData
 {
     // ReSharper disable once InconsistentNaming
-    public class NEMDBContext : DbContext
+    public class NEMTrackerContext : DbContext
     {
 
-        public NEMDBContext(DbContextOptions options) : base(options)
+        public NEMTrackerContext(DbContextOptions options) : base(options)
         {
         }
 

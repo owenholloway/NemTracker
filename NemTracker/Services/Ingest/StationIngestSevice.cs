@@ -11,6 +11,7 @@ using NemTracker.Features;
 using NemTracker.Features.Tools;
 using NemTracker.Model.Model.Stations;
 using NemTracker.Persistence.Features;
+using NemTracker.Persistence.Features.NemTrackerData;
 using Oxygen.Features;
 using Oxygen.Interfaces;
 
@@ -32,7 +33,7 @@ namespace NemTracker.Services.Ingest
             optionsBuilder.UseNpgsql(configuration.GetValue<string>("APPLICATION_DATABASE"));
             //optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
 
-            var nemdbContext = new NEMDBContext(optionsBuilder.Options);
+            var nemdbContext = new NEMTrackerContext(optionsBuilder.Options);
             _readOnlyRepository = new ReadOnlyRepository(nemdbContext);
             _readWriteRepository = new ReadWriteRepository(nemdbContext);
             _crontabSchedule = CrontabSchedule.Parse(Schedule, 
